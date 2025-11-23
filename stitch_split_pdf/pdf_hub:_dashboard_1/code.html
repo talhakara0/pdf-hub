@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PDF Toolkit Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-[#18181B] dark:text-white">
+<div class="relative flex min-h-screen w-full flex-col">
+<div class="flex h-full grow flex-col">
+<div class="flex flex-1 justify-center p-4 sm:p-6 lg:p-8">
+<div class="flex w-full max-w-6xl flex-col gap-8">
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap rounded-xl border border-neutral-200/80 dark:border-[#232f48] bg-white/50 dark:bg-black/20 p-4 backdrop-blur-sm">
+<div class="flex items-center gap-3 text-neutral-800 dark:text-white">
+<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#4A00E0] to-[#8E2DE2] text-white">
+<span class="material-symbols-outlined text-xl">
+                                all_inbox
+                           </span>
+</div>
+<h2 class="text-lg font-bold">PDF Toolkit</h2>
+</div>
+<button class="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-neutral-200 dark:bg-[#232f48] text-neutral-800 dark:text-white hover:bg-neutral-300 dark:hover:bg-[#324467] transition-colors">
+<span class="material-symbols-outlined text-xl">
+                            dark_mode
+                        </span>
+</button>
+</header>
+<main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 flex flex-col gap-8">
+<!-- Drag and Drop Area -->
+<div class="flex flex-col items-center gap-6 rounded-xl border-2 border-dashed border-primary/50 dark:border-primary/40 bg-white/30 dark:bg-black/20 p-10 text-center">
+<div class="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-4xl">
+                                   upload_file
+                               </span>
+</div>
+<div class="flex max-w-md flex-col items-center gap-2">
+<p class="text-xl font-bold tracking-tight">Drop your PDF files here</p>
+<p class="text-sm text-neutral-600 dark:text-[#92a4c9]">or click to browse your files</p>
+</div>
+<button class="flex min-w-[120px] max-w-sm cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-6 bg-gradient-to-r from-[#4A00E0] to-[#8E2DE2] text-white text-sm font-bold shadow-lg shadow-[#6c17e1]/20 hover:shadow-xl hover:shadow-[#6c17e1]/30 transition-shadow">
+<span class="truncate">Select Files</span>
+</button>
+</div>
+<!-- Feature Action Cards -->
+<div>
+<h2 class="text-2xl font-bold tracking-tight px-1 pb-4">What would you like to do?</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="flex flex-col gap-3 rounded-xl p-4 bg-white/30 dark:bg-black/20 border border-neutral-200/80 dark:border-[#232f48] hover:border-primary/50 dark:hover:border-primary transition-colors cursor-pointer group">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-3xl">merge_type</span>
+</div>
+<div>
+<p class="font-medium text-neutral-800 dark:text-white">Merge PDF</p>
+<p class="text-sm text-neutral-600 dark:text-[#92a4c9]">Combine PDFs</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-xl p-4 bg-white/30 dark:bg-black/20 border border-neutral-200/80 dark:border-[#232f48] hover:border-primary/50 dark:hover:border-primary transition-colors cursor-pointer group">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-3xl">splitscreen</span>
+</div>
+<div>
+<p class="font-medium text-neutral-800 dark:text-white">Split PDF</p>
+<p class="text-sm text-neutral-600 dark:text-[#92a4c9]">Extract pages</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-xl p-4 bg-white/30 dark:bg-black/20 border border-neutral-200/80 dark:border-[#232f48] hover:border-primary/50 dark:hover:border-primary transition-colors cursor-pointer group">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-3xl">compress</span>
+</div>
+<div>
+<p class="font-medium text-neutral-800 dark:text-white">Compress PDF</p>
+<p class="text-sm text-neutral-600 dark:text-[#92a4c9]">Reduce file size</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-xl p-4 bg-white/30 dark:bg-black/20 border border-neutral-200/80 dark:border-[#232f48] hover:border-primary/50 dark:hover:border-primary transition-colors cursor-pointer group">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-3xl">image</span>
+</div>
+<div>
+<p class="font-medium text-neutral-800 dark:text-white">Image to PDF</p>
+<p class="text-sm text-neutral-600 dark:text-[#92a4c9]">Convert images</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Activity List -->
+<div>
+<h2 class="text-2xl font-bold tracking-tight px-1 pb-4">Recent Operations</h2>
+<div class="rounded-xl border border-neutral-200/80 dark:border-[#232f48] bg-white/30 dark:bg-black/20 overflow-hidden">
+<div class="flex flex-col">
+<div class="flex items-center p-4 border-b border-neutral-200/80 dark:border-[#232f48] hover:bg-neutral-100/50 dark:hover:bg-white/5 transition-colors">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary mr-4">
+<span class="material-symbols-outlined text-2xl">merge_type</span>
+</div>
+<div class="flex-grow">
+<p class="font-medium text-neutral-800 dark:text-white">Merged Document.pdf</p>
+<p class="text-sm text-neutral-600 dark:text-[#92a4c9]">Merge PDF</p>
+</div>
+<p class="text-sm text-neutral-500 dark:text-[#92a4c9] whitespace-nowrap">2 hours ago</p>
+</div>
+<div class="flex items-center p-4 border-b border-neutral-200/80 dark:border-[#232f48] hover:bg-neutral-100/50 dark:hover:bg-white/5 transition-colors">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary mr-4">
+<span class="material-symbols-outlined text-2xl">compress</span>
+</div>
+<div class="flex-grow">
+<p class="font-medium text-neutral-800 dark:text-white">Annual_Report_Final.pdf</p>
+<p class="text-sm text-neutral-600 dark:text-[#92a4c9]">Compress PDF</p>
+</div>
+<p class="text-sm text-neutral-500 dark:text-[#92a4c9] whitespace-nowrap">1 day ago</p>
+</div>
+<div class="flex items-center p-4 hover:bg-neutral-100/50 dark:hover:bg-white/5 transition-colors">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary mr-4">
+<span class="material-symbols-outlined text-2xl">image</span>
+</div>
+<div class="flex-grow">
+<p class="font-medium text-neutral-800 dark:text-white">Scanned_Receipts.pdf</p>
+<p class="text-sm text-neutral-600 dark:text-[#92a4c9]">Image to PDF</p>
+</div>
+<p class="text-sm text-neutral-500 dark:text-[#92a4c9] whitespace-nowrap">3 days ago</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-1 flex flex-col gap-8">
+<!-- Statistics Panel -->
+<div class="flex flex-col gap-4">
+<h2 class="text-2xl font-bold tracking-tight px-1">Your Stats</h2>
+<div class="flex flex-col gap-4 p-6 rounded-xl border border-neutral-200/80 dark:border-[#232f48] bg-white/30 dark:bg-black/20">
+<div class="flex items-center gap-4">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-3xl">folder_zip</span>
+</div>
+<div>
+<p class="text-sm text-neutral-600 dark:text-[#92a4c9]">Total Files Processed</p>
+<p class="text-2xl font-bold text-neutral-800 dark:text-white">1,245</p>
+</div>
+</div>
+<div class="w-full h-px bg-neutral-200/80 dark:bg-[#232f48]"></div>
+<div class="flex items-center gap-4">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-3xl">savings</span>
+</div>
+<div>
+<p class="text-sm text-neutral-600 dark:text-[#92a4c9]">Total Size Saved</p>
+<p class="text-2xl font-bold text-neutral-800 dark:text-white">3.12 GB</p>
+</div>
+</div>
+<div class="w-full h-px bg-neutral-200/80 dark:bg-[#232f48]"></div>
+<div class="flex items-center gap-4">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-3xl">auto_awesome</span>
+</div>
+<div>
+<p class="text-sm text-neutral-600 dark:text-[#92a4c9]">Most Used Tool</p>
+<p class="text-2xl font-bold text-neutral-800 dark:text-white">Compress PDF</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</div>
+</div>
+</body></html>

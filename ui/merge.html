@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>PDF Hub - Merge PDF</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": {
+                            DEFAULT: "#6366F1",
+                            light: "#E0E7FF",
+                            dark: "#4338CA"
+                        },
+                        "background": "#F8FAFC",
+                        "surface": "#FFFFFF",
+                        "text-primary": "#1E293B",
+                        "text-secondary": "#64748B",
+                        "border-color": "#E2E8F0"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem"
+                    },
+                    boxShadow: {
+                        'sm': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+                        'md': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="font-sans bg-background text-text-primary">
+    <div class="flex min-h-screen w-full flex-col">
+        <header class="sticky top-0 z-20 border-b border-border-color bg-surface/80 backdrop-blur-sm">
+            <div class="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-3xl text-primary-dark cursor-pointer"
+                        onclick="goHome()">picture_as_pdf</span>
+                    <h1 class="text-lg font-bold">PDF Hub - Merge</h1>
+                </div>
+                <button onclick="goHome()"
+                    class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-color bg-surface transition-colors hover:bg-slate-100">
+                    <span class="material-symbols-outlined text-xl text-text-secondary">home</span>
+                </button>
+            </div>
+        </header>
+        <main class="flex-1">
+            <div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-extrabold tracking-tight">Merge PDF Files</h2>
+                    <p class="mt-1.5 text-text-secondary">Combine multiple PDFs into a single, organized document.</p>
+                </div>
+                <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+                    <div class="flex flex-col gap-6 lg:col-span-2">
+                        <!-- File List Container -->
+                        <div id="fileListContainer"
+                            class="hidden flex-col rounded-xl border border-border-color bg-surface shadow-sm">
+                            <div class="flex items-center justify-between border-b border-border-color p-4">
+                                <h3 class="font-semibold">Files to Merge (<span id="fileCount">0</span>)</h3>
+                                <button onclick="addMoreFiles()"
+                                    class="flex h-9 items-center justify-center gap-2 rounded-md border border-border-color px-3 text-sm font-medium transition-colors hover:bg-slate-100">
+                                    <span class="material-symbols-outlined text-base">add</span>
+                                    <span>Add More Files</span>
+                                </button>
+                            </div>
+                            <ul id="fileList" class="divide-y divide-border-color"></ul>
+                        </div>
+
+                        <!-- Empty State -->
+                        <div id="emptyState"
+                            class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-border-color p-10 text-center bg-surface">
+                            <span class="material-symbols-outlined text-5xl text-text-secondary">upload_file</span>
+                            <div class="flex flex-col items-center gap-1">
+                                <p class="text-lg font-bold">Select PDF files to merge</p>
+                                <p class="text-sm text-text-secondary">You can select multiple files at once</p>
+                            </div>
+                            <button onclick="selectPDFs()"
+                                class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-md bg-primary px-4 text-sm font-bold text-white transition-colors hover:bg-primary-dark">
+                                <span class="material-symbols-outlined text-base">add</span>
+                                <span class="truncate">Select Files</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-1">
+                        <div
+                            class="sticky top-24 flex flex-col gap-6 rounded-xl border border-border-color bg-surface p-6 shadow-sm">
+                            <!-- Ready State -->
+                            <div id="readyState" class="hidden flex-col gap-4">
+                                <h3 class="text-lg font-bold">Merge Options</h3>
+                                <p class="text-sm text-text-secondary">Click the button below to combine your files into
+                                    one PDF.</p>
+                                <button onclick="mergePDFs()" id="mergeBtn"
+                                    class="flex h-11 w-full items-center justify-center gap-2 rounded-md bg-primary px-4 text-base font-semibold text-white shadow-sm transition-colors hover:bg-primary-dark">
+                                    <span class="material-symbols-outlined">merge_type</span>
+                                    <span>Merge PDFs</span>
+                                </button>
+                            </div>
+
+                            <!-- Processing State -->
+                            <div id="processingState" class="hidden flex-col items-center gap-4 text-center">
+                                <h3 class="text-lg font-bold">Merging your files...</h3>
+                                <div class="w-full bg-slate-200 rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full animate-pulse" style="width: 100%"></div>
+                                </div>
+                                <p class="text-sm text-text-secondary">Please wait while we combine your documents.</p>
+                            </div>
+
+                            <!-- Success State -->
+                            <div id="successState" class="hidden flex-col gap-5">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-green-100">
+                                        <span class="material-symbols-outlined text-green-600">check_circle</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-bold">Merge Successful!</h3>
+                                        <p class="text-sm text-text-secondary">Your PDF has been created.</p>
+                                    </div>
+                                </div>
+                                <p id="successMessage" class="text-sm text-text-primary"></p>
+                                <button onclick="startOver()"
+                                    class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium transition-colors hover:bg-slate-100">
+                                    <span class="material-symbols-outlined text-base">refresh</span>
+                                    <span>Start Over</span>
+                                </button>
+                            </div>
+
+                            <!-- Error State -->
+                            <div id="errorState" class="hidden flex-col gap-4">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-red-100">
+                                        <span class="material-symbols-outlined text-red-600">error</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-bold">Merge Failed</h3>
+                                    </div>
+                                </div>
+                                <p id="errorMessage" class="text-sm text-red-600"></p>
+                                <button onclick="startOver()"
+                                    class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium transition-colors hover:bg-slate-100">
+                                    <span class="material-symbols-outlined text-base">refresh</span>
+                                    <span>Try Again</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let selectedFiles = [];
+
+        function goHome() {
+            if (window.pywebview && window.pywebview.api) {
+                window.pywebview.api.navigate('index');
+            }
+        }
+
+        async function selectPDFs() {
+            if (window.pywebview && window.pywebview.api) {
+                const files = await window.pywebview.api.select_files(null, true);
+                if (files && files.length > 0) {
+                    selectedFiles = files;
+                    updateFileList();
+                }
+            }
+        }
+
+        async function addMoreFiles() {
+            if (window.pywebview && window.pywebview.api) {
+                const files = await window.pywebview.api.select_files(null, true);
+                if (files && files.length > 0) {
+                    selectedFiles = [...selectedFiles, ...files];
+                    updateFileList();
+                }
+            }
+        }
+
+        function updateFileList() {
+            const fileList = document.getElementById('fileList');
+            const fileCount = document.getElementById('fileCount');
+            const emptyState = document.getElementById('emptyState');
+            const fileListContainer = document.getElementById('fileListContainer');
+            const readyState = document.getElementById('readyState');
+
+            if (selectedFiles.length === 0) {
+                emptyState.classList.remove('hidden');
+                fileListContainer.classList.add('hidden');
+                readyState.classList.add('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            fileListContainer.classList.remove('hidden');
+            readyState.classList.remove('hidden');
+
+            fileCount.textContent = selectedFiles.length;
+            fileList.innerHTML = '';
+
+            selectedFiles.forEach((file, index) => {
+                const fileName = file.split('/').pop();
+                const colors = ['red', 'blue', 'green', 'purple', 'orange'];
+                const color = colors[index % colors.length];
+
+                const li = document.createElement('li');
+                li.className = 'flex items-center gap-4 p-4 transition-colors hover:bg-slate-50';
+                li.innerHTML = `
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-${color}-100">
+                        <span class="material-symbols-outlined text-${color}-600">picture_as_pdf</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-medium">${fileName}</p>
+                        <p class="text-sm text-text-secondary">PDF File</p>
+                    </div>
+                    <button onclick="removeFile(${index})" class="flex h-8 w-8 items-center justify-center rounded-full text-text-secondary/80 transition-colors hover:bg-slate-200 hover:text-text-primary">
+                        <span class="material-symbols-outlined text-xl">close</span>
+                    </button>
+                `;
+                fileList.appendChild(li);
+            });
+        }
+
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            updateFileList();
+        }
+
+        async function mergePDFs() {
+            if (selectedFiles.length === 0) {
+                return;
+            }
+
+            // Show processing state
+            document.getElementById('readyState').classList.add('hidden');
+            document.getElementById('processingState').classList.remove('hidden');
+
+            if (window.pywebview && window.pywebview.api) {
+                try {
+                    const result = await window.pywebview.api.merge_pdfs(selectedFiles, 'merged.pdf');
+
+                    document.getElementById('processingState').classList.add('hidden');
+
+                    if (result.success) {
+                        document.getElementById('successMessage').textContent = result.message || 'Files merged successfully!';
+                        document.getElementById('successState').classList.remove('hidden');
+                    } else {
+                        document.getElementById('errorMessage').textContent = result.error || 'An error occurred';
+                        document.getElementById('errorState').classList.remove('hidden');
+                    }
+                } catch (error) {
+                    document.getElementById('processingState').classList.add('hidden');
+                    document.getElementById('errorMessage').textContent = error.toString();
+                    document.getElementById('errorState').classList.remove('hidden');
+                }
+            }
+        }
+
+        function startOver() {
+            selectedFiles = [];
+            updateFileList();
+            document.getElementById('successState').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            document.getElementById('processingState').classList.add('hidden');
+        }
+    </script>
+</body>
+
+</html>

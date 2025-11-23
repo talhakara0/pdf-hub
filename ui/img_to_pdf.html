@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>PDF Hub - Image to PDF</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": { DEFAULT: "#6366F1", light: "#E0E7FF", dark: "#4338CA" },
+                        "background": "#F8FAFC", "surface": "#FFFFFF",
+                        "text-primary": "#1E293B", "text-secondary": "#64748B", "border-color": "#E2E8F0"
+                    },
+                    fontFamily: { "sans": ["Inter", "sans-serif"] }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="font-sans bg-background text-text-primary">
+    <div class="flex min-h-screen w-full flex-col">
+        <header class="sticky top-0 z-20 border-b border-border-color bg-surface/80 backdrop-blur-sm">
+            <div class="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-3xl text-primary-dark cursor-pointer"
+                        onclick="goHome()">picture_as_pdf</span>
+                    <h1 class="text-lg font-bold">PDF Hub - Image to PDF</h1>
+                </div>
+                <button onclick="goHome()"
+                    class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-color bg-surface transition-colors hover:bg-slate-100">
+                    <span class="material-symbols-outlined text-xl text-text-secondary">home</span>
+                </button>
+            </div>
+        </header>
+        <main class="flex-1">
+            <div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-extrabold tracking-tight">Image to PDF</h2>
+                    <p class="mt-1.5 text-text-secondary">Convert your images to a PDF document.</p>
+                </div>
+                <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+                    <div class="flex flex-col gap-6 lg:col-span-2">
+                        <!-- Empty State -->
+                        <div id="emptyState"
+                            class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-border-color p-10 text-center bg-surface">
+                            <span class="material-symbols-outlined text-5xl text-text-secondary">image</span>
+                            <div>
+                                <p class="text-lg font-bold">Select images to convert</p>
+                                <p class="text-sm text-text-secondary">Choose JPG, PNG, or other image files</p>
+                            </div>
+                            <button onclick="selectImages()"
+                                class="flex h-10 min-w-[84px] items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-bold text-white">
+                                <span class="material-symbols-outlined text-base">add</span>
+                                <span>Select Images</span>
+                            </button>
+                        </div>
+
+                        <!-- Image List -->
+                        <div id="imageList"
+                            class="hidden flex-col rounded-xl border border-border-color bg-surface shadow-sm">
+                            <div class="flex items-center justify-between border-b border-border-color p-4">
+                                <h3 class="font-semibold">Images (<span id="imageCount">0</span>)</h3>
+                                <button onclick="addMoreImages()"
+                                    class="flex h-9 items-center justify-center gap-2 rounded-md border border-border-color px-3 text-sm font-medium hover:bg-slate-100">
+                                    <span class="material-symbols-outlined text-base">add</span>
+                                    <span>Add More</span>
+                                </button>
+                            </div>
+                            <ul id="images" class="divide-y divide-border-color"></ul>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-1">
+                        <div
+                            class="sticky top-24 flex flex-col gap-6 rounded-xl border border-border-color bg-surface p-6 shadow-sm">
+                            <!-- Ready State -->
+                            <div id="readyState" class="hidden flex-col gap-4">
+                                <h3 class="text-lg font-bold">Convert</h3>
+                                <p class="text-sm text-text-secondary">Convert selected images into a single PDF file.
+                                </p>
+                                <button onclick="convertToPDF()"
+                                    class="flex h-11 w-full items-center justify-center gap-2 rounded-md bg-primary px-4 text-base font-semibold text-white hover:bg-primary-dark">
+                                    <span class="material-symbols-outlined">picture_as_pdf</span>
+                                    <span>Create PDF</span>
+                                </button>
+                            </div>
+
+                            <!-- Processing State -->
+                            <div id="processingState" class="hidden flex-col items-center gap-4 text-center">
+                                <h3 class="text-lg font-bold">Converting...</h3>
+                                <div class="w-full bg-slate-200 rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full animate-pulse" style="width: 100%"></div>
+                                </div>
+                                <p class="text-sm text-text-secondary">Creating PDF from images.</p>
+                            </div>
+
+                            <!-- Success State -->
+                            <div id="successState" class="hidden flex-col gap-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
+                                        <span class="material-symbols-outlined text-green-600">check_circle</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-bold">PDF Created!</h3>
+                                        <p id="successMessage" class="text-sm text-text-secondary"></p>
+                                    </div>
+                                </div>
+                                <button onclick="startOver()"
+                                    class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium hover:bg-slate-100">
+                                    <span class="material-symbols-outlined text-base">refresh</span>
+                                    <span>Start Over</span>
+                                </button>
+                            </div>
+
+                            <!-- Error State -->
+                            <div id="errorState" class="hidden flex-col gap-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-red-100">
+                                        <span class="material-symbols-outlined text-red-600">error</span>
+                                    </div>
+                                    <h3 class="text-lg font-bold">Conversion Failed</h3>
+                                </div>
+                                <p id="errorMessage" class="text-sm text-red-600"></p>
+                                <button onclick="startOver()"
+                                    class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium hover:bg-slate-100">
+                                    <span class="material-symbols-outlined text-base">refresh</span>
+                                    <span>Try Again</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let selectedImages = [];
+
+        function goHome() {
+            if (window.pywebview && window.pywebview.api) {
+                window.pywebview.api.navigate('index');
+            }
+        }
+
+        async function selectImages() {
+            if (window.pywebview && window.pywebview.api) {
+                const files = await window.pywebview.api.select_images(true);
+                if (files && files.length > 0) {
+                    selectedImages = files;
+                    updateUI();
+                }
+            }
+        }
+
+        async function addMoreImages() {
+            if (window.pywebview && window.pywebview.api) {
+                const files = await window.pywebview.api.select_images(true);
+                if (files && files.length > 0) {
+                    selectedImages = [...selectedImages, ...files];
+                    updateUI();
+                }
+            }
+        }
+
+        function updateUI() {
+            const imageListDiv = document.getElementById('imageList');
+            const emptyState = document.getElementById('emptyState');
+            const readyState = document.getElementById('readyState');
+            const imageCount = document.getElementById('imageCount');
+            const images = document.getElementById('images');
+
+            if (selectedImages.length === 0) {
+                emptyState.classList.remove('hidden');
+                imageListDiv.classList.add('hidden');
+                readyState.classList.add('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            imageListDiv.classList.remove('hidden');
+            readyState.classList.remove('hidden');
+
+            imageCount.textContent = selectedImages.length;
+            images.innerHTML = '';
+
+            selectedImages.forEach((file, index) => {
+                const fileName = file.split('/').pop();
+                const li = document.createElement('li');
+                li.className = 'flex items-center gap-4 p-4 hover:bg-slate-50';
+                li.innerHTML = `
+                    <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100">
+                        <span class="material-symbols-outlined text-green-600">image</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-medium">${fileName}</p>
+                        <p class="text-sm text-text-secondary">Image File</p>
+                    </div>
+                    <button onclick="removeImage(${index})" class="flex h-8 w-8 items-center justify-center rounded-full text-text-secondary/80 hover:bg-slate-200">
+                        <span class="material-symbols-outlined text-xl">close</span>
+                    </button>
+                `;
+                images.appendChild(li);
+            });
+        }
+
+        function removeImage(index) {
+            selectedImages.splice(index, 1);
+            updateUI();
+        }
+
+        async function convertToPDF() {
+            if (selectedImages.length === 0) {
+                alert('Please select images');
+                return;
+            }
+
+            document.getElementById('readyState').classList.add('hidden');
+            document.getElementById('processingState').classList.remove('hidden');
+
+            if (window.pywebview && window.pywebview.api) {
+                try {
+                    const result = await window.pywebview.api.image_to_pdf(selectedImages, 'images.pdf');
+
+                    document.getElementById('processingState').classList.add('hidden');
+
+                    if (result.success) {
+                        document.getElementById('successMessage').textContent = result.message || 'PDF created successfully';
+                        document.getElementById('successState').classList.remove('hidden');
+                    } else {
+                        document.getElementById('errorMessage').textContent = result.error || 'An error occurred';
+                        document.getElementById('errorState').classList.remove('hidden');
+                    }
+                } catch (error) {
+                    document.getElementById('processingState').classList.add('hidden');
+                    document.getElementById('errorMessage').textContent = error.toString();
+                    document.getElementById('errorState').classList.remove('hidden');
+                }
+            }
+        }
+
+        function startOver() {
+            selectedImages = [];
+            updateUI();
+            document.getElementById('successState').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PDF to Text Converter</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": {
+                           DEFAULT: "#4F46E5",
+                           hover: "#4338CA"
+                        },
+                        "secondary": "#7C3AED",
+                        "accent-start": "#4F46E5",
+                        "accent-end": "#7C3AED",
+                        "background": {
+                           light: "#F7F8FC",
+                           dark: "#111827"
+                        },
+                        "surface": {
+                            light: "#FFFFFF",
+                            dark: "#1F2937"
+                        },
+                         "border": {
+                            light: "#E5E7EB",
+                            dark: "#374151"
+                        }
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["Fira Code", "monospace"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light text-gray-900 dark:bg-background-dark dark:text-gray-100">
+<div class="relative flex h-auto min-h-screen w-full flex-col">
+<div class="flex h-full min-h-screen">
+<aside class="flex w-64 flex-col border-r border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark/50 p-4">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 px-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Application logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCfct-DU5l_t_TUtV0fmSe29p7zR82WzY58LSA5BtzGEHzm1nGS-iAKJWQEoLbOzQC76WMuXqRqv4hjGQqxb3wUg6FomolPf3FuubcZgxSoNLR7IQTyPGfh2uzqYbRBz9CW1dTBSa8aSFsNrQA1XXpCuHN342IMILX40hHsZc-MmZdwGr89HuM62FmNhhzXnX2JihhtfTeGg_mlNjJNIZpu_SO4ds-Txa6t7ZO_QjEwSPBR4qNEPyXaMcqzDkRFNVXL621IUQmECR8");'></div>
+<div class="flex flex-col">
+<h1 class="text-gray-900 dark:text-white text-base font-semibold leading-normal">PDF Suite</h1>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Pro Plan</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1 mt-6">
+<a class="flex items-center gap-3 px-3 py-2 rounded text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">merge_type</span>
+<p class="text-sm font-medium leading-normal">Merge PDF</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">splitscreen</span>
+<p class="text-sm font-medium leading-normal">Split PDF</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">compress</span>
+<p class="text-sm font-medium leading-normal">Compress PDF</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">image</span>
+<p class="text-sm font-medium leading-normal">Image to PDF</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded bg-primary/10 dark:bg-primary/20 text-primary dark:text-white font-semibold" href="#">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">description</span>
+<p class="text-sm font-medium leading-normal">PDF to Text</p>
+</a>
+</nav>
+</div>
+<div class="mt-auto flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</div>
+</aside>
+<main class="flex-1 overflow-y-auto p-8">
+<div class="mx-auto max-w-5xl">
+<div class="flex flex-col gap-1">
+<h1 class="text-gray-900 dark:text-white text-3xl font-bold tracking-tight">PDF to Text</h1>
+<p class="text-gray-500 dark:text-gray-400 text-base font-normal">Extract text from your PDF, with optional OCR for scanned documents.</p>
+</div>
+<div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+<div class="flex flex-col gap-6">
+<div class="flex flex-col items-center justify-center gap-4 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 bg-surface-light dark:bg-surface-dark px-6 py-10 text-center">
+<div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-3xl">upload_file</span>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-gray-900 dark:text-white text-lg font-semibold">Drag &amp; drop PDF here</p>
+<p class="text-gray-500 dark:text-gray-400 text-sm">or click to browse</p>
+</div>
+<button class="mt-2 flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-sm hover:bg-primary-hover transition-colors">
+<span class="truncate">Select PDF</span>
+</button>
+</div>
+<div class="flex flex-col gap-4 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-5">
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white">Options</h3>
+<div class="flex flex-col gap-3">
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300">Pages to Convert</label>
+<div class="flex h-10 w-full items-center rounded-lg bg-gray-100 dark:bg-gray-800 p-1">
+<label class="flex h-full flex-1 cursor-pointer items-center justify-center rounded-md px-3 has-[:checked]:bg-white dark:has-[:checked]:bg-gray-700 has-[:checked]:shadow-sm text-sm font-medium text-gray-500 has-[:checked]:text-gray-900 dark:text-gray-400 dark:has-[:checked]:text-white transition-all">
+                                            All Pages
+                                            <input checked="" class="sr-only" name="page-selection" type="radio" value="all"/>
+</label>
+<label class="flex h-full flex-1 cursor-pointer items-center justify-center rounded-md px-3 has-[:checked]:bg-white dark:has-[:checked]:bg-gray-700 has-[:checked]:shadow-sm text-sm font-medium text-gray-500 has-[:checked]:text-gray-900 dark:text-gray-400 dark:has-[:checked]:text-white transition-all">
+                                            Select Pages
+                                            <input class="sr-only" name="page-selection" type="radio" value="select"/>
+</label>
+</div>
+<input class="h-10 w-full rounded-lg border-gray-300 dark:border-gray-600 bg-transparent text-sm focus:border-primary focus:ring-primary dark:placeholder-gray-500" placeholder="e.g., 1-3, 5, 8" type="text"/>
+</div>
+<div class="flex items-center justify-between pt-2">
+<div class="flex flex-col">
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300" for="ocr-toggle">OCR Mode</label>
+<p class="text-xs text-gray-500 dark:text-gray-400">For scanned documents or images in PDF.</p>
+</div>
+<label class="relative inline-flex cursor-pointer items-center">
+<input class="sr-only peer" id="ocr-toggle" type="checkbox"/>
+<div class="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="flex-grow flex flex-col gap-4 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-5">
+<div class="flex items-center justify-between">
+<h3 class="text-lg font-semibold text-gray-900 dark:text-white">Extracted Text</h3>
+<div class="flex items-center gap-2 rounded-full bg-teal-100 dark:bg-teal-900/50 px-3 py-1 text-xs font-medium text-teal-700 dark:text-teal-300">
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
+                                        OCR Mode Active
+                                    </div>
+</div>
+<div class="flex-grow flex min-h-[300px]">
+<textarea class="font-mono text-sm w-full h-full resize-none rounded-lg border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 p-4 focus:ring-2 focus:ring-primary focus:border-primary">This is the extracted text content.
+It is now fully editable. Users can make changes directly in this text area.
+The content is scrollable, so large amounts of text can be handled without breaking the layout. This makes it easy to review and correct any extraction errors, especially after using OCR.
+1. First item
+2. Second item
+3. Third item
+...and the rest of the document's text would appear here.</textarea>
+</div>
+<div class="mt-auto flex flex-col sm:flex-row items-center justify-end gap-3 pt-2">
+<button class="flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg h-10 px-4 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+<span class="material-symbols-outlined text-base">content_copy</span>
+<span class="truncate">Copy to Clipboard</span>
+</button>
+<button class="flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg h-10 px-4 bg-gradient-to-r from-accent-start to-accent-end text-white text-sm font-bold shadow-sm hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-base">download</span>
+<span class="truncate">Download as .txt</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+</body></html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>PDF Hub - PDF Sıkıştır</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24
+        }
+
+        .page-thumbnail {
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .page-thumbnail:hover {
+            transform: scale(1.05);
+        }
+
+        .page-selected {
+            border-color: #6366F1 !important;
+            background-color: #E0E7FF !important;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": { DEFAULT: "#6366F1", light: "#E0E7FF", dark: "#4338CA" },
+                        "background": "#F8FAFC", "surface": "#FFFFFF",
+                        "text-primary": "#1E293B", "text-secondary": "#64748B", "border-color": "#E2E8F0"
+                    },
+                    fontFamily: { "sans": ["Inter", "sans-serif"] }
+                },
+            },
+        }
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+</head>
+
+<body class="font-sans bg-background text-text-primary">
+    <div class="flex min-h-screen w-full flex-col">
+        <header class="sticky top-0 z-20 border-b border-border-color bg-surface/80 backdrop-blur-sm">
+            <div class="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-3xl text-primary-dark cursor-pointer"
+                        onclick="goHome()">picture_as_pdf</span>
+                    <h1 class="text-lg font-bold">PDF Hub - Sıkıştır</h1>
+                </div>
+                <button onclick="goHome()"
+                    class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-color bg-surface transition-colors hover:bg-slate-100">
+                    <span class="material-symbols-outlined text-xl text-text-secondary">home</span>
+                </button>
+            </div>
+        </header>
+        <main class="flex-1">
+            <div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-extrabold tracking-tight">PDF Sıkıştır</h2>
+                    <p class="mt-1.5 text-text-secondary">İsteğe bağlı sayfa seçimi ile PDF dosya boyutunu küçültün</p>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState"
+                    class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-border-color p-10 text-center bg-surface">
+                    <span class="material-symbols-outlined text-5xl text-text-secondary">upload_file</span>
+                    <div>
+                        <p class="text-lg font-bold">PDF Dosyası Seçin</p>
+                        <p class="text-sm text-text-secondary">Sıkıştırmak istediğiniz PDF'i seçin</p>
+                    </div>
+                    <button onclick="selectPDF()"
+                        class="flex h-10 min-w-[84px] items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-bold text-white hover:bg-primary-dark">
+                        <span class="material-symbols-outlined text-base">add</span>
+                        <span>Dosya Seç</span>
+                    </button>
+                </div>
+
+                <!-- Pages View -->
+                <div id="pagesView" class="hidden">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 class="font-bold text-lg" id="pdfFileName"></h3>
+                            <p class="text-sm text-text-secondary"><span id="totalPages">0</span> sayfa • <span
+                                    id="selectedCount">Tümü</span> seçili</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="selectAllPages()"
+                                class="flex h-9 items-center gap-2 rounded-md border border-border-color px-3 text-sm font-medium hover:bg-slate-100">
+                                <span class="material-symbols-outlined text-base">select_all</span>
+                                <span>Tümünü Seç</span>
+                            </button>
+                            <button onclick="deselectAllPages()"
+                                class="flex h-9 items-center gap-2 rounded-md border border-border-color px-3 text-sm font-medium hover:bg-slate-100">
+                                <span class="material-symbols-outlined text-base">deselect</span>
+                                <span>Hiçbiri</span>
+                            </button>
+                            <button onclick="compressPDF()" id="compressBtn"
+                                class="flex h-9 items-center gap-2 rounded-md bg-primary px-4 text-sm font-semibold text-white hover:bg-primary-dark">
+                                <span class="material-symbols-outlined text-base">compress</span>
+                                <span>Sıkıştır</span>
+                            </button>
+                            <button onclick="clearFile()"
+                                class="flex h-8 w-8 items-center justify-center rounded-full text-text-secondary/80 hover:bg-slate-200">
+                                <span class="material-symbols-outlined text-xl">close</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-border-color p-6 mb-4">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="material-symbols-outlined text-2xl text-primary">info</span>
+                            <div>
+                                <p class="font-medium">Sayfa Seçimi (İsteğe Bağlı)</p>
+                                <p class="text-sm text-text-secondary">Varsayılan olarak tüm sayfalar sıkıştırılır.
+                                    Belirli sayfaları tutmak için tıklayın.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div id="loadingPages" class="flex items-center justify-center p-10">
+                        <div class="text-center">
+                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4">
+                            </div>
+                            <p class="text-text-secondary">Sayfalar yükleniyor...</p>
+                        </div>
+                    </div>
+
+                    <!-- Page Grid -->
+                    <div id="pageGrid"
+                        class="hidden grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-3 max-h-[600px] overflow-y-auto p-2 bg-white rounded-xl border border-border-color">
+                    </div>
+                </div>
+
+                <!-- Processing/Success/Error States -->
+                <div id="processingState" class="hidden flex-col items-center gap-4 text-center p-10">
+                    <h3 class="text-lg font-bold">PDF Sıkıştırılıyor...</h3>
+                    <div class="w-full max-w-md bg-slate-200 rounded-full h-2">
+                        <div class="bg-primary h-2 rounded-full animate-pulse" style="width: 100%"></div>
+                    </div>
+                    <p class="text-sm text-text-secondary">Dosya boyutu azaltılıyor...</p>
+                </div>
+
+                <div id="successState" class="hidden flex-col items-center gap-4 p-10">
+                    <div class="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+                        <span class="material-symbols-outlined text-green-600 text-4xl">check_circle</span>
+                    </div>
+                    <h3 class="text-2xl font-bold">Sıkıştırma Başarılı!</h3>
+                    <div class="bg-slate-50 rounded-lg p-6 w-full max-w-md space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-text-secondary">Orijinal Boyut:</span>
+                            <span id="originalSize" class="font-medium"></span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-text-secondary">Sıkıştırılmış Boyut:</span>
+                            <span id="compressedSize" class="font-medium"></span>
+                        </div>
+                        <div class="flex justify-between text-sm pt-2 border-t">
+                            <span class="text-text-secondary">Azalma:</span>
+                            <span id="reduction" class="font-medium text-green-600"></span>
+                        </div>
+                    </div>
+                    <button onclick="startOver()"
+                        class="flex h-10 items-center gap-2 rounded-md px-6 text-sm font-medium hover:bg-slate-100 mt-4">
+                        <span class="material-symbols-outlined text-base">refresh</span>
+                        <span>Yeni PDF Sıkıştır</span>
+                    </button>
+                </div>
+
+                <div id="errorState" class="hidden flex-col items-center gap-4 p-10">
+                    <div class="flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
+                        <span class="material-symbols-outlined text-red-600 text-4xl">error</span>
+                    </div>
+                    <h3 class="text-2xl font-bold">Hata!</h3>
+                    <p id="errorMessage" class="text-red-600"></p>
+                    <button onclick="startOver()"
+                        class="flex h-10 items-center gap-2 rounded-md px-6 text-sm font-medium hover:bg-slate-100">
+                        <span class="material-symbols-outlined text-base">refresh</span>
+                        <span>Tekrar Dene</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let selectedFile = null;
+        let totalPagesCount = 0;
+        let selectedPages = new Set();
+        let pdfDoc = null;
+
+        function goHome() {
+            if (window.pywebview && window.pywebview.api) {
+                window.pywebview.api.navigate('index');
+            }
+        }
+
+        async function selectPDF() {
+            if (window.pywebview && window.pywebview.api) {
+                const files = await window.pywebview.api.select_files(null, false);
+                if (files && files.length > 0) {
+                    selectedFile = files[0];
+                    await loadPDFPages();
+                }
+            }
+        }
+
+        async function loadPDFPages() {
+            if (!selectedFile || !window.pywebview || !window.pywebview.api) return;
+
+            try {
+                const info = await window.pywebview.api.get_pdf_info(selectedFile);
+
+                if (!info.success) {
+                    alert('PDF bilgisi alınamadı: ' + info.error);
+                    return;
+                }
+
+                totalPagesCount = info.page_count;
+                const fileName = selectedFile.split('/').pop();
+
+                document.getElementById('emptyState').classList.add('hidden');
+                document.getElementById('pagesView').classList.remove('hidden');
+                document.getElementById('loadingPages').classList.remove('hidden');
+                document.getElementById('pdfFileName').textContent = fileName;
+                document.getElementById('totalPages').textContent = totalPagesCount;
+
+                // Get PDF data
+                const pdfData = await window.pywebview.api.get_pdf_data(selectedFile);
+
+                if (!pdfData.success) {
+                    alert('PDF verisi alınamadı: ' + pdfData.error);
+                    return;
+                }
+
+                // Load PDF with PDF.js
+                const pdfBytes = atob(pdfData.data);
+                const pdfArray = new Uint8Array(pdfBytes.length);
+                for (let i = 0; i < pdfBytes.length; i++) {
+                    pdfArray[i] = pdfBytes.charCodeAt(i);
+                }
+
+                pdfDoc = await pdfjsLib.getDocument({ data: pdfArray }).promise;
+
+                // Select all pages by default
+                selectAllPages();
+
+            } catch (error) {
+                alert('Hata: ' + error);
+                console.error(error);
+            }
+        }
+
+        async function renderPages() {
+            const grid = document.getElementById('pageGrid');
+            grid.innerHTML = '';
+
+            for (let i = 1; i <= totalPagesCount; i++) {
+                const pageDiv = document.createElement('div');
+                pageDiv.className = 'page-thumbnail aspect-[3/4] rounded-lg border-2 bg-white overflow-hidden shadow-sm transition-all';
+                pageDiv.className += selectedPages.has(i) ? ' page-selected' : ' border-slate-300 hover:border-primary';
+                pageDiv.onclick = () => togglePage(i);
+                pageDiv.style.position = 'relative';
+
+                // Render page to canvas
+                const page = await pdfDoc.getPage(i);
+                const viewport = page.getViewport({ scale: 0.5 });
+
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                await page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                }).promise;
+
+                pageDiv.appendChild(canvas);
+
+                // Page number badge
+                const badge = document.createElement('div');
+                badge.className = selectedPages.has(i) ? 'absolute top-1 left-1 bg-primary text-white text-xs font-bold px-2 py-0.5 rounded' : 'absolute top-1 left-1 bg-slate-600 text-white text-xs font-bold px-2 py-0.5 rounded';
+                badge.textContent = i;
+                pageDiv.appendChild(badge);
+
+                // Check icon
+                if (selectedPages.has(i)) {
+                    const checkIcon = document.createElement('span');
+                    checkIcon.className = 'material-symbols-outlined absolute top-1 right-1 text-primary text-xl bg-white rounded-full';
+                    checkIcon.textContent = 'check_circle';
+                    pageDiv.appendChild(checkIcon);
+                }
+
+                grid.appendChild(pageDiv);
+            }
+
+            document.getElementById('loadingPages').classList.add('hidden');
+            document.getElementById('pageGrid').classList.remove('hidden');
+            updateSelectedCount();
+        }
+
+        function togglePage(pageNum) {
+            if (selectedPages.has(pageNum)) {
+                selectedPages.delete(pageNum);
+            } else {
+                selectedPages.add(pageNum);
+            }
+            renderPages();
+        }
+
+        function selectAllPages() {
+            selectedPages.clear();
+            for (let i = 1; i <= totalPagesCount; i++) {
+                selectedPages.add(i);
+            }
+            if (pdfDoc) renderPages();
+        }
+
+        function deselectAllPages() {
+            selectedPages.clear();
+            if (pdfDoc) renderPages();
+        }
+
+        function updateSelectedCount() {
+            const count = document.getElementById('selectedCount');
+            if (selectedPages.size === totalPagesCount) {
+                count.textContent = 'Tümü';
+            } else {
+                count.textContent = selectedPages.size;
+            }
+        }
+
+        function clearFile() {
+            selectedFile = null;
+            totalPagesCount = 0;
+            selectedPages.clear();
+            pdfDoc = null;
+            document.getElementById('pagesView').classList.add('hidden');
+            document.getElementById('pageGrid').classList.add('hidden');
+            document.getElementById('emptyState').classList.remove('hidden');
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+
+        async function compressPDF() {
+            if (!selectedFile) {
+                alert('Lütfen bir PDF seçin!');
+                return;
+            }
+
+            if (selectedPages.size === 0) {
+                alert('En az bir sayfa seçin!');
+                return;
+            }
+
+            document.getElementById('pagesView').classList.add('hidden');
+            document.getElementById('processingState').classList.remove('hidden');
+
+            if (window.pywebview && window.pywebview.api) {
+                try {
+                    const result = await window.pywebview.api.compress_pdf(selectedFile);
+
+                    document.getElementById('processingState').classList.add('hidden');
+
+                    if (result.success) {
+                        document.getElementById('originalSize').textContent = formatFileSize(result.original_size);
+                        document.getElementById('compressedSize').textContent = formatFileSize(result.compressed_size);
+                        document.getElementById('reduction').textContent = result.reduction_percent + '%';
+                        document.getElementById('successState').classList.remove('hidden');
+                    } else {
+                        document.getElementById('errorMessage').textContent = result.error || 'Bir hata oluştu';
+                        document.getElementById('errorState').classList.remove('hidden');
+                    }
+                } catch (error) {
+                    document.getElementById('processingState').classList.add('hidden');
+                    document.getElementById('errorMessage').textContent = error.toString();
+                    document.getElementById('errorState').classList.remove('hidden');
+                }
+            }
+        }
+
+        function startOver() {
+            document.getElementById('successState').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            clearFile();
+        }
+    </script>
+</body>
+
+</html>
