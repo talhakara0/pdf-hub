@@ -18,12 +18,41 @@
     </style>
     <script>
         tailwind.config = {
+            darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": { DEFAULT: "#6366F1", light: "#E0E7FF", dark: "#4338CA" },
-                        "background": "#F8FAFC", "surface": "#FFFFFF",
-                        "text-primary": "#1E293B", "text-secondary": "#64748B", "border-color": "#E2E8F0"
+                        "primary": "#4F46E5",
+                        "primary-gradient-to": "#7C3AED",
+                        "background-light": "#F9FAFB",
+                        "background-dark": "#111827",
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#1F2937",
+                        "text-light": "#111827",
+                        "text-dark": "#D1D5DB",
+                        "text-secondary-light": "#6B7280",
+                        "text-secondary-dark": "#9CA3AF",
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#374151",
+                        primary: {
+                            DEFAULT: '#4F46E5',
+                            '50': '#EEF2FF',
+                            '100': '#E0E7FF',
+                            '200': '#C7D2FE',
+                            '300': '#A5B4FC',
+                            '400': '#818CF8',
+                            '500': '#6366F1',
+                            '600': '#4F46E5',
+                            '700': '#4338CA',
+                            '800': '#3730A3',
+                            '900': '#312E81',
+                            '950': '#1E1B4B',
+                        },
+                        "background": "#F8FAFC",
+                        "surface": "#FFFFFF",
+                        "text-primary": "#1E293B",
+                        "text-secondary": "#64748B",
+                        "border-color": "#E2E8F0"
                     },
                     fontFamily: { "sans": ["Inter", "sans-serif"] }
                 },
@@ -32,36 +61,42 @@
     </script>
 </head>
 
-<body class="font-sans bg-background text-text-primary">
+<body class="font-sans bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark transition-colors duration-200">
     <div class="flex min-h-screen w-full flex-col">
-        <header class="sticky top-0 z-20 border-b border-border-color bg-surface/80 backdrop-blur-sm">
+        <header class="sticky top-0 z-20 border-b border-border-light dark:border-border-dark bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-sm">
             <div class="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-3xl text-primary-dark cursor-pointer"
+                    <span class="material-symbols-outlined text-3xl text-primary cursor-pointer"
                         onclick="goHome()">picture_as_pdf</span>
-                    <h1 class="text-lg font-bold">PDF Hub - Image to PDF</h1>
+                    <h1 class="text-lg font-bold text-text-light dark:text-text-dark">PDF Hub - Image to PDF</h1>
                 </div>
-                <button onclick="goHome()"
-                    class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-color bg-surface transition-colors hover:bg-slate-100">
-                    <span class="material-symbols-outlined text-xl text-text-secondary">home</span>
-                </button>
+                <div class="flex items-center gap-2">
+                    <button id="theme-toggle"
+                        class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-secondary-light dark:text-text-secondary-dark transition-colors hover:bg-slate-100 dark:hover:bg-white/5">
+                        <span class="material-symbols-outlined text-xl" id="theme-icon">dark_mode</span>
+                    </button>
+                    <button onclick="goHome()"
+                        class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark transition-colors hover:bg-slate-100 dark:hover:bg-white/5">
+                        <span class="material-symbols-outlined text-xl text-text-secondary-light dark:text-text-secondary-dark">home</span>
+                    </button>
+                </div>
             </div>
         </header>
         <main class="flex-1">
             <div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-extrabold tracking-tight">Image to PDF</h2>
-                    <p class="mt-1.5 text-text-secondary">Convert your images to a PDF document.</p>
+                    <h2 class="text-3xl font-extrabold tracking-tight text-text-light dark:text-text-dark">Image to PDF</h2>
+                    <p class="mt-1.5 text-text-secondary-light dark:text-text-secondary-dark">Convert your images to a PDF document.</p>
                 </div>
                 <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
                     <div class="flex flex-col gap-6 lg:col-span-2">
                         <!-- Empty State -->
                         <div id="emptyState"
-                            class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-border-color p-10 text-center bg-surface">
-                            <span class="material-symbols-outlined text-5xl text-text-secondary">image</span>
+                            class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-border-light dark:border-border-dark p-10 text-center bg-surface-light dark:bg-surface-dark">
+                            <span class="material-symbols-outlined text-5xl text-text-secondary-light dark:text-text-secondary-dark">image</span>
                             <div>
-                                <p class="text-lg font-bold">Select images to convert</p>
-                                <p class="text-sm text-text-secondary">Choose JPG, PNG, or other image files</p>
+                                <p class="text-lg font-bold text-text-light dark:text-text-dark">Select images to convert</p>
+                                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Choose JPG, PNG, or other image files</p>
                             </div>
                             <button onclick="selectImages()"
                                 class="flex h-10 min-w-[84px] items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-bold text-white">
@@ -72,25 +107,25 @@
 
                         <!-- Image List -->
                         <div id="imageList"
-                            class="hidden flex-col rounded-xl border border-border-color bg-surface shadow-sm">
-                            <div class="flex items-center justify-between border-b border-border-color p-4">
-                                <h3 class="font-semibold">Images (<span id="imageCount">0</span>)</h3>
+                            class="hidden flex-col rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark shadow-sm">
+                            <div class="flex items-center justify-between border-b border-border-light dark:border-border-dark p-4">
+                                <h3 class="font-semibold text-text-light dark:text-text-dark">Images (<span id="imageCount">0</span>)</h3>
                                 <button onclick="addMoreImages()"
-                                    class="flex h-9 items-center justify-center gap-2 rounded-md border border-border-color px-3 text-sm font-medium hover:bg-slate-100">
+                                    class="flex h-9 items-center justify-center gap-2 rounded-md border border-border-light dark:border-border-dark px-3 text-sm font-medium hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                                     <span class="material-symbols-outlined text-base">add</span>
                                     <span>Add More</span>
                                 </button>
                             </div>
-                            <ul id="images" class="divide-y divide-border-color"></ul>
+                            <ul id="images" class="divide-y divide-border-light dark:divide-border-dark"></ul>
                         </div>
                     </div>
                     <div class="lg:col-span-1">
                         <div
-                            class="sticky top-24 flex flex-col gap-6 rounded-xl border border-border-color bg-surface p-6 shadow-sm">
+                            class="sticky top-24 flex flex-col gap-6 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-6 shadow-sm">
                             <!-- Ready State -->
                             <div id="readyState" class="hidden flex-col gap-4">
-                                <h3 class="text-lg font-bold">Convert</h3>
-                                <p class="text-sm text-text-secondary">Convert selected images into a single PDF file.
+                                <h3 class="text-lg font-bold text-text-light dark:text-text-dark">Convert</h3>
+                                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Convert selected images into a single PDF file.
                                 </p>
                                 <button onclick="convertToPDF()"
                                     class="flex h-11 w-full items-center justify-center gap-2 rounded-md bg-primary px-4 text-base font-semibold text-white hover:bg-primary-dark">
@@ -101,26 +136,26 @@
 
                             <!-- Processing State -->
                             <div id="processingState" class="hidden flex-col items-center gap-4 text-center">
-                                <h3 class="text-lg font-bold">Converting...</h3>
-                                <div class="w-full bg-slate-200 rounded-full h-2">
+                                <h3 class="text-lg font-bold text-text-light dark:text-text-dark">Converting...</h3>
+                                <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
                                     <div class="bg-primary h-2 rounded-full animate-pulse" style="width: 100%"></div>
                                 </div>
-                                <p class="text-sm text-text-secondary">Creating PDF from images.</p>
+                                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Creating PDF from images.</p>
                             </div>
 
                             <!-- Success State -->
                             <div id="successState" class="hidden flex-col gap-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
-                                        <span class="material-symbols-outlined text-green-600">check_circle</span>
+                                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
+                                        <span class="material-symbols-outlined text-green-600 dark:text-green-400">check_circle</span>
                                     </div>
                                     <div>
-                                        <h3 class="text-lg font-bold">PDF Created!</h3>
-                                        <p id="successMessage" class="text-sm text-text-secondary"></p>
+                                        <h3 class="text-lg font-bold text-text-light dark:text-text-dark">PDF Created!</h3>
+                                        <p id="successMessage" class="text-sm text-text-secondary-light dark:text-text-secondary-dark"></p>
                                     </div>
                                 </div>
                                 <button onclick="startOver()"
-                                    class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium hover:bg-slate-100">
+                                    class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                                     <span class="material-symbols-outlined text-base">refresh</span>
                                     <span>Start Over</span>
                                 </button>
@@ -129,14 +164,14 @@
                             <!-- Error State -->
                             <div id="errorState" class="hidden flex-col gap-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-red-100">
-                                        <span class="material-symbols-outlined text-red-600">error</span>
+                                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
+                                        <span class="material-symbols-outlined text-red-600 dark:text-red-400">error</span>
                                     </div>
-                                    <h3 class="text-lg font-bold">Conversion Failed</h3>
+                                    <h3 class="text-lg font-bold text-text-light dark:text-text-dark">Conversion Failed</h3>
                                 </div>
-                                <p id="errorMessage" class="text-sm text-red-600"></p>
+                                <p id="errorMessage" class="text-sm text-red-600 dark:text-red-400"></p>
                                 <button onclick="startOver()"
-                                    class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium hover:bg-slate-100">
+                                    class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                                     <span class="material-symbols-outlined text-base">refresh</span>
                                     <span>Try Again</span>
                                 </button>
@@ -150,6 +185,42 @@
 
     <script>
         let selectedImages = [];
+
+        // Dark Mode Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        function updateThemeUI(isDark) {
+            if (isDark) {
+                themeIcon.textContent = 'light_mode';
+            } else {
+                themeIcon.textContent = 'dark_mode';
+            }
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+            htmlElement.classList.add('dark');
+            updateThemeUI(true);
+        } else {
+            htmlElement.classList.remove('dark');
+            updateThemeUI(false);
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                updateThemeUI(false);
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                updateThemeUI(true);
+            }
+        });
 
         function goHome() {
             if (window.pywebview && window.pywebview.api) {
@@ -201,16 +272,16 @@
             selectedImages.forEach((file, index) => {
                 const fileName = file.split('/').pop();
                 const li = document.createElement('li');
-                li.className = 'flex items-center gap-4 p-4 hover:bg-slate-50';
+                li.className = 'flex items-center gap-4 p-4 hover:bg-slate-50 dark:hover:bg-white/5';
                 li.innerHTML = `
-                    <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100">
-                        <span class="material-symbols-outlined text-green-600">image</span>
+                    <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900/30">
+                        <span class="material-symbols-outlined text-green-600 dark:text-green-400">image</span>
                     </div>
                     <div class="flex-1">
-                        <p class="font-medium">${fileName}</p>
-                        <p class="text-sm text-text-secondary">Image File</p>
+                        <p class="font-medium text-text-light dark:text-text-dark">${fileName}</p>
+                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Image File</p>
                     </div>
-                    <button onclick="removeImage(${index})" class="flex h-8 w-8 items-center justify-center rounded-full text-text-secondary/80 hover:bg-slate-200">
+                    <button onclick="removeImage(${index})" class="flex h-8 w-8 items-center justify-center rounded-full text-text-secondary-light dark:text-text-secondary-dark hover:bg-slate-200 dark:hover:bg-white/10">
                         <span class="material-symbols-outlined text-xl">close</span>
                     </button>
                 `;

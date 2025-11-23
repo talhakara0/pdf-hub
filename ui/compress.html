@@ -39,14 +39,52 @@
     </style>
     <script>
         tailwind.config = {
+            darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": { DEFAULT: "#6366F1", light: "#E0E7FF", dark: "#4338CA" },
-                        "background": "#F8FAFC", "surface": "#FFFFFF",
-                        "text-primary": "#1E293B", "text-secondary": "#64748B", "border-color": "#E2E8F0"
+                        "primary": "#4F46E5",
+                        "primary-gradient-to": "#7C3AED",
+                        "background-light": "#F9FAFB",
+                        "background-dark": "#111827",
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#1F2937",
+                        "text-light": "#111827",
+                        "text-dark": "#D1D5DB",
+                        "text-secondary-light": "#6B7280",
+                        "text-secondary-dark": "#9CA3AF",
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#374151",
+                        primary: {
+                            DEFAULT: '#4F46E5',
+                            '50': '#EEF2FF',
+                            '100': '#E0E7FF',
+                            '200': '#C7D2FE',
+                            '300': '#A5B4FC',
+                            '400': '#818CF8',
+                            '500': '#6366F1',
+                            '600': '#4F46E5',
+                            '700': '#4338CA',
+                            '800': '#3730A3',
+                            '900': '#312E81',
+                            '950': '#1E1B4B',
+                        },
+                        "background": "#F8FAFC",
+                        "surface": "#FFFFFF",
+                        "text-primary": "#1E293B",
+                        "text-secondary": "#64748B",
+                        "border-color": "#E2E8F0"
                     },
-                    fontFamily: { "sans": ["Inter", "sans-serif"] }
+                    fontFamily: { "sans": ["Inter", "sans-serif"] },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem"
+                    },
+                    boxShadow: {
+                        'sm': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+                        'md': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+                    }
                 },
             },
         }
@@ -54,38 +92,51 @@
     </script>
 </head>
 
-<body class="font-sans bg-background text-text-primary">
+<body
+    class="font-sans bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark transition-colors duration-200">
     <div class="flex min-h-screen w-full flex-col">
-        <header class="sticky top-0 z-20 border-b border-border-color bg-surface/80 backdrop-blur-sm">
+        <header
+            class="sticky top-0 z-20 border-b border-border-light dark:border-border-dark bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-sm">
             <div class="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-3xl text-primary-dark cursor-pointer"
+                    <span class="material-symbols-outlined text-3xl text-primary cursor-pointer"
                         onclick="goHome()">picture_as_pdf</span>
-                    <h1 class="text-lg font-bold">PDF Hub - Sıkıştır</h1>
+                    <h1 class="text-lg font-bold text-text-light dark:text-text-dark">PDF Hub - Sıkıştır</h1>
                 </div>
-                <button onclick="goHome()"
-                    class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-color bg-surface transition-colors hover:bg-slate-100">
-                    <span class="material-symbols-outlined text-xl text-text-secondary">home</span>
-                </button>
+                <div class="flex items-center gap-2">
+                    <button id="theme-toggle"
+                        class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-secondary-light dark:text-text-secondary-dark transition-colors hover:bg-slate-100 dark:hover:bg-white/5">
+                        <span class="material-symbols-outlined text-xl" id="theme-icon">dark_mode</span>
+                    </button>
+                    <button onclick="goHome()"
+                        class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark transition-colors hover:bg-slate-100 dark:hover:bg-white/5">
+                        <span
+                            class="material-symbols-outlined text-xl text-text-secondary-light dark:text-text-secondary-dark">home</span>
+                    </button>
+                </div>
             </div>
         </header>
         <main class="flex-1">
             <div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-extrabold tracking-tight">PDF Sıkıştır</h2>
-                    <p class="mt-1.5 text-text-secondary">İsteğe bağlı sayfa seçimi ile PDF dosya boyutunu küçültün</p>
+                    <h2 class="text-3xl font-extrabold tracking-tight text-text-light dark:text-text-dark">PDF Sıkıştır
+                    </h2>
+                    <p class="mt-1.5 text-text-secondary-light dark:text-text-secondary-dark">İsteğe bağlı sayfa seçimi
+                        ile PDF dosya boyutunu küçültün</p>
                 </div>
 
                 <!-- Empty State -->
                 <div id="emptyState"
-                    class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-border-color p-10 text-center bg-surface">
-                    <span class="material-symbols-outlined text-5xl text-text-secondary">upload_file</span>
+                    class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-border-light dark:border-border-dark p-10 text-center bg-surface-light dark:bg-surface-dark">
+                    <span
+                        class="material-symbols-outlined text-5xl text-text-secondary-light dark:text-text-secondary-dark">upload_file</span>
                     <div>
-                        <p class="text-lg font-bold">PDF Dosyası Seçin</p>
-                        <p class="text-sm text-text-secondary">Sıkıştırmak istediğiniz PDF'i seçin</p>
+                        <p class="text-lg font-bold text-text-light dark:text-text-dark">PDF Dosyası Seçin</p>
+                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Sıkıştırmak
+                            istediğiniz PDF'i seçin</p>
                     </div>
                     <button onclick="selectPDF()"
-                        class="flex h-10 min-w-[84px] items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-bold text-white hover:bg-primary-dark">
+                        class="flex h-10 min-w-[84px] items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-bold text-white hover:bg-primary/90">
                         <span class="material-symbols-outlined text-base">add</span>
                         <span>Dosya Seç</span>
                     </button>
@@ -95,39 +146,42 @@
                 <div id="pagesView" class="hidden">
                     <div class="flex items-center justify-between mb-6">
                         <div>
-                            <h3 class="font-bold text-lg" id="pdfFileName"></h3>
-                            <p class="text-sm text-text-secondary"><span id="totalPages">0</span> sayfa • <span
-                                    id="selectedCount">Tümü</span> seçili</p>
+                            <h3 class="font-bold text-lg text-text-light dark:text-text-dark" id="pdfFileName"></h3>
+                            <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark"><span
+                                    id="totalPages">0</span> sayfa • <span id="selectedCount">Tümü</span> seçili</p>
                         </div>
                         <div class="flex gap-2">
                             <button onclick="selectAllPages()"
-                                class="flex h-9 items-center gap-2 rounded-md border border-border-color px-3 text-sm font-medium hover:bg-slate-100">
+                                class="flex h-9 items-center gap-2 rounded-md border border-border-light dark:border-border-dark px-3 text-sm font-medium hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                                 <span class="material-symbols-outlined text-base">select_all</span>
                                 <span>Tümünü Seç</span>
                             </button>
                             <button onclick="deselectAllPages()"
-                                class="flex h-9 items-center gap-2 rounded-md border border-border-color px-3 text-sm font-medium hover:bg-slate-100">
+                                class="flex h-9 items-center gap-2 rounded-md border border-border-light dark:border-border-dark px-3 text-sm font-medium hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                                 <span class="material-symbols-outlined text-base">deselect</span>
                                 <span>Hiçbiri</span>
                             </button>
                             <button onclick="compressPDF()" id="compressBtn"
-                                class="flex h-9 items-center gap-2 rounded-md bg-primary px-4 text-sm font-semibold text-white hover:bg-primary-dark">
+                                class="flex h-9 items-center gap-2 rounded-md bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90">
                                 <span class="material-symbols-outlined text-base">compress</span>
                                 <span>Sıkıştır</span>
                             </button>
                             <button onclick="clearFile()"
-                                class="flex h-8 w-8 items-center justify-center rounded-full text-text-secondary/80 hover:bg-slate-200">
+                                class="flex h-8 w-8 items-center justify-center rounded-full text-text-secondary-light dark:text-text-secondary-dark hover:bg-slate-200 dark:hover:bg-white/10">
                                 <span class="material-symbols-outlined text-xl">close</span>
                             </button>
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-xl border border-border-color p-6 mb-4">
+                    <div
+                        class="bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark p-6 mb-4">
                         <div class="flex items-center gap-3 mb-2">
                             <span class="material-symbols-outlined text-2xl text-primary">info</span>
                             <div>
-                                <p class="font-medium">Sayfa Seçimi (İsteğe Bağlı)</p>
-                                <p class="text-sm text-text-secondary">Varsayılan olarak tüm sayfalar sıkıştırılır.
+                                <p class="font-medium text-text-light dark:text-text-dark">Sayfa Seçimi (İsteğe Bağlı)
+                                </p>
+                                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Varsayılan
+                                    olarak tüm sayfalar sıkıştırılır.
                                     Belirli sayfaları tutmak için tıklayın.</p>
                             </div>
                         </div>
@@ -138,59 +192,65 @@
                         <div class="text-center">
                             <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4">
                             </div>
-                            <p class="text-text-secondary">Sayfalar yükleniyor...</p>
+                            <p class="text-text-secondary-light dark:text-text-secondary-dark">Sayfalar yükleniyor...
+                            </p>
                         </div>
                     </div>
 
                     <!-- Page Grid -->
                     <div id="pageGrid"
-                        class="hidden grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-3 max-h-[600px] overflow-y-auto p-2 bg-white rounded-xl border border-border-color">
+                        class="hidden grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-3 max-h-[600px] overflow-y-auto p-2 bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark">
                     </div>
                 </div>
 
                 <!-- Processing/Success/Error States -->
                 <div id="processingState" class="hidden flex-col items-center gap-4 text-center p-10">
-                    <h3 class="text-lg font-bold">PDF Sıkıştırılıyor...</h3>
-                    <div class="w-full max-w-md bg-slate-200 rounded-full h-2">
+                    <h3 class="text-lg font-bold text-text-light dark:text-text-dark">PDF Sıkıştırılıyor...</h3>
+                    <div class="w-full max-w-md bg-slate-200 dark:bg-slate-700 rounded-full h-2">
                         <div class="bg-primary h-2 rounded-full animate-pulse" style="width: 100%"></div>
                     </div>
-                    <p class="text-sm text-text-secondary">Dosya boyutu azaltılıyor...</p>
+                    <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Dosya boyutu
+                        azaltılıyor...</p>
                 </div>
 
                 <div id="successState" class="hidden flex-col items-center gap-4 p-10">
-                    <div class="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-                        <span class="material-symbols-outlined text-green-600 text-4xl">check_circle</span>
+                    <div
+                        class="flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
+                        <span
+                            class="material-symbols-outlined text-green-600 dark:text-green-400 text-4xl">check_circle</span>
                     </div>
-                    <h3 class="text-2xl font-bold">Sıkıştırma Başarılı!</h3>
-                    <div class="bg-slate-50 rounded-lg p-6 w-full max-w-md space-y-3">
+                    <h3 class="text-2xl font-bold text-text-light dark:text-text-dark">Sıkıştırma Başarılı!</h3>
+                    <div class="bg-slate-50 dark:bg-white/5 rounded-lg p-6 w-full max-w-md space-y-3">
                         <div class="flex justify-between text-sm">
-                            <span class="text-text-secondary">Orijinal Boyut:</span>
-                            <span id="originalSize" class="font-medium"></span>
+                            <span class="text-text-secondary-light dark:text-text-secondary-dark">Orijinal Boyut:</span>
+                            <span id="originalSize" class="font-medium text-text-light dark:text-text-dark"></span>
                         </div>
                         <div class="flex justify-between text-sm">
-                            <span class="text-text-secondary">Sıkıştırılmış Boyut:</span>
-                            <span id="compressedSize" class="font-medium"></span>
+                            <span class="text-text-secondary-light dark:text-text-secondary-dark">Sıkıştırılmış
+                                Boyut:</span>
+                            <span id="compressedSize" class="font-medium text-text-light dark:text-text-dark"></span>
                         </div>
-                        <div class="flex justify-between text-sm pt-2 border-t">
-                            <span class="text-text-secondary">Azalma:</span>
-                            <span id="reduction" class="font-medium text-green-600"></span>
+                        <div
+                            class="flex justify-between text-sm pt-2 border-t border-border-light dark:border-border-dark">
+                            <span class="text-text-secondary-light dark:text-text-secondary-dark">Azalma:</span>
+                            <span id="reduction" class="font-medium text-green-600 dark:text-green-400"></span>
                         </div>
                     </div>
                     <button onclick="startOver()"
-                        class="flex h-10 items-center gap-2 rounded-md px-6 text-sm font-medium hover:bg-slate-100 mt-4">
+                        class="flex h-10 items-center gap-2 rounded-md px-6 text-sm font-medium hover:bg-slate-100 dark:hover:bg-white/5 mt-4 text-text-light dark:text-text-dark">
                         <span class="material-symbols-outlined text-base">refresh</span>
                         <span>Yeni PDF Sıkıştır</span>
                     </button>
                 </div>
 
                 <div id="errorState" class="hidden flex-col items-center gap-4 p-10">
-                    <div class="flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
-                        <span class="material-symbols-outlined text-red-600 text-4xl">error</span>
+                    <div class="flex h-16 w-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
+                        <span class="material-symbols-outlined text-red-600 dark:text-red-400 text-4xl">error</span>
                     </div>
-                    <h3 class="text-2xl font-bold">Hata!</h3>
-                    <p id="errorMessage" class="text-red-600"></p>
+                    <h3 class="text-2xl font-bold text-text-light dark:text-text-dark">Hata!</h3>
+                    <p id="errorMessage" class="text-red-600 dark:text-red-400"></p>
                     <button onclick="startOver()"
-                        class="flex h-10 items-center gap-2 rounded-md px-6 text-sm font-medium hover:bg-slate-100">
+                        class="flex h-10 items-center gap-2 rounded-md px-6 text-sm font-medium hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                         <span class="material-symbols-outlined text-base">refresh</span>
                         <span>Tekrar Dene</span>
                     </button>
@@ -204,6 +264,42 @@
         let totalPagesCount = 0;
         let selectedPages = new Set();
         let pdfDoc = null;
+
+        // Dark Mode Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        function updateThemeUI(isDark) {
+            if (isDark) {
+                themeIcon.textContent = 'light_mode';
+            } else {
+                themeIcon.textContent = 'dark_mode';
+            }
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+            htmlElement.classList.add('dark');
+            updateThemeUI(true);
+        } else {
+            htmlElement.classList.remove('dark');
+            updateThemeUI(false);
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                updateThemeUI(false);
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                updateThemeUI(true);
+            }
+        });
 
         function goHome() {
             if (window.pywebview && window.pywebview.api) {
@@ -273,8 +369,8 @@
 
             for (let i = 1; i <= totalPagesCount; i++) {
                 const pageDiv = document.createElement('div');
-                pageDiv.className = 'page-thumbnail aspect-[3/4] rounded-lg border-2 bg-white overflow-hidden shadow-sm transition-all';
-                pageDiv.className += selectedPages.has(i) ? ' page-selected' : ' border-slate-300 hover:border-primary';
+                pageDiv.className = 'page-thumbnail aspect-[3/4] rounded-lg border-2 bg-white dark:bg-slate-800 overflow-hidden shadow-sm transition-all';
+                pageDiv.className += selectedPages.has(i) ? ' page-selected' : ' border-border-light dark:border-border-dark hover:border-primary';
                 pageDiv.onclick = () => togglePage(i);
                 pageDiv.style.position = 'relative';
 

@@ -24,13 +24,35 @@
     </style>
     <script>
         tailwind.config = {
+            darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": {
-                            DEFAULT: "#6366F1",
-                            light: "#E0E7FF",
-                            dark: "#4338CA"
+                        "primary": "#4F46E5",
+                        "primary-gradient-to": "#7C3AED",
+                        "background-light": "#F9FAFB",
+                        "background-dark": "#111827",
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#1F2937",
+                        "text-light": "#111827",
+                        "text-dark": "#D1D5DB",
+                        "text-secondary-light": "#6B7280",
+                        "text-secondary-dark": "#9CA3AF",
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#374151",
+                        primary: {
+                            DEFAULT: '#4F46E5',
+                            '50': '#EEF2FF',
+                            '100': '#E0E7FF',
+                            '200': '#C7D2FE',
+                            '300': '#A5B4FC',
+                            '400': '#818CF8',
+                            '500': '#6366F1',
+                            '600': '#4F46E5',
+                            '700': '#4338CA',
+                            '800': '#3730A3',
+                            '900': '#312E81',
+                            '950': '#1E1B4B',
                         },
                         "background": "#F8FAFC",
                         "surface": "#FFFFFF",
@@ -56,53 +78,69 @@
     </script>
 </head>
 
-<body class="font-sans bg-background text-text-primary">
+<body
+    class="font-sans bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark transition-colors duration-200">
     <div class="flex min-h-screen w-full flex-col">
-        <header class="sticky top-0 z-20 border-b border-border-color bg-surface/80 backdrop-blur-sm">
+        <header
+            class="sticky top-0 z-20 border-b border-border-light dark:border-border-dark bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-sm">
             <div class="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-3xl text-primary-dark cursor-pointer"
+                    <span class="material-symbols-outlined text-3xl text-primary cursor-pointer"
                         onclick="goHome()">picture_as_pdf</span>
-                    <h1 class="text-lg font-bold">PDF Hub - Merge</h1>
+                    <h1 class="text-lg font-bold text-text-light dark:text-text-dark">PDF Hub - Merge</h1>
                 </div>
-                <button onclick="goHome()"
-                    class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-color bg-surface transition-colors hover:bg-slate-100">
-                    <span class="material-symbols-outlined text-xl text-text-secondary">home</span>
-                </button>
+                <div class="flex items-center gap-2">
+                    <button id="theme-toggle"
+                        class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-secondary-light dark:text-text-secondary-dark transition-colors hover:bg-slate-100 dark:hover:bg-white/5">
+                        <span class="material-symbols-outlined text-xl" id="theme-icon">dark_mode</span>
+                    </button>
+                    <button onclick="goHome()"
+                        class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark transition-colors hover:bg-slate-100 dark:hover:bg-white/5">
+                        <span
+                            class="material-symbols-outlined text-xl text-text-secondary-light dark:text-text-secondary-dark">home</span>
+                    </button>
+                </div>
             </div>
         </header>
         <main class="flex-1">
             <div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-extrabold tracking-tight">Merge PDF Files</h2>
-                    <p class="mt-1.5 text-text-secondary">Combine multiple PDFs into a single, organized document.</p>
+                    <h2 class="text-3xl font-extrabold tracking-tight text-text-light dark:text-text-dark">Merge PDF
+                        Files</h2>
+                    <p class="mt-1.5 text-text-secondary-light dark:text-text-secondary-dark">Combine multiple PDFs into
+                        a single, organized document.</p>
                 </div>
                 <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
                     <div class="flex flex-col gap-6 lg:col-span-2">
                         <!-- File List Container -->
                         <div id="fileListContainer"
-                            class="hidden flex-col rounded-xl border border-border-color bg-surface shadow-sm">
-                            <div class="flex items-center justify-between border-b border-border-color p-4">
-                                <h3 class="font-semibold">Files to Merge (<span id="fileCount">0</span>)</h3>
+                            class="hidden flex-col rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark shadow-sm">
+                            <div
+                                class="flex items-center justify-between border-b border-border-light dark:border-border-dark p-4">
+                                <h3 class="font-semibold text-text-light dark:text-text-dark">Files to Merge (<span
+                                        id="fileCount">0</span>)</h3>
                                 <button onclick="addMoreFiles()"
-                                    class="flex h-9 items-center justify-center gap-2 rounded-md border border-border-color px-3 text-sm font-medium transition-colors hover:bg-slate-100">
+                                    class="flex h-9 items-center justify-center gap-2 rounded-md border border-border-light dark:border-border-dark px-3 text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                                     <span class="material-symbols-outlined text-base">add</span>
                                     <span>Add More Files</span>
                                 </button>
                             </div>
-                            <ul id="fileList" class="divide-y divide-border-color"></ul>
+                            <ul id="fileList" class="divide-y divide-border-light dark:divide-border-dark"></ul>
                         </div>
 
                         <!-- Empty State -->
                         <div id="emptyState"
-                            class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-border-color p-10 text-center bg-surface">
-                            <span class="material-symbols-outlined text-5xl text-text-secondary">upload_file</span>
+                            class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-border-light dark:border-border-dark p-10 text-center bg-surface-light dark:bg-surface-dark">
+                            <span
+                                class="material-symbols-outlined text-5xl text-text-secondary-light dark:text-text-secondary-dark">upload_file</span>
                             <div class="flex flex-col items-center gap-1">
-                                <p class="text-lg font-bold">Select PDF files to merge</p>
-                                <p class="text-sm text-text-secondary">You can select multiple files at once</p>
+                                <p class="text-lg font-bold text-text-light dark:text-text-dark">Select PDF files to
+                                    merge</p>
+                                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">You can
+                                    select multiple files at once</p>
                             </div>
                             <button onclick="selectPDFs()"
-                                class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-md bg-primary px-4 text-sm font-bold text-white transition-colors hover:bg-primary-dark">
+                                class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-md bg-primary px-4 text-sm font-bold text-white transition-colors hover:bg-primary/90">
                                 <span class="material-symbols-outlined text-base">add</span>
                                 <span class="truncate">Select Files</span>
                             </button>
@@ -110,14 +148,15 @@
                     </div>
                     <div class="lg:col-span-1">
                         <div
-                            class="sticky top-24 flex flex-col gap-6 rounded-xl border border-border-color bg-surface p-6 shadow-sm">
+                            class="sticky top-24 flex flex-col gap-6 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-6 shadow-sm">
                             <!-- Ready State -->
                             <div id="readyState" class="hidden flex-col gap-4">
-                                <h3 class="text-lg font-bold">Merge Options</h3>
-                                <p class="text-sm text-text-secondary">Click the button below to combine your files into
+                                <h3 class="text-lg font-bold text-text-light dark:text-text-dark">Merge Options</h3>
+                                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Click the
+                                    button below to combine your files into
                                     one PDF.</p>
                                 <button onclick="mergePDFs()" id="mergeBtn"
-                                    class="flex h-11 w-full items-center justify-center gap-2 rounded-md bg-primary px-4 text-base font-semibold text-white shadow-sm transition-colors hover:bg-primary-dark">
+                                    class="flex h-11 w-full items-center justify-center gap-2 rounded-md bg-primary px-4 text-base font-semibold text-white shadow-sm transition-colors hover:bg-primary/90">
                                     <span class="material-symbols-outlined">merge_type</span>
                                     <span>Merge PDFs</span>
                                 </button>
@@ -125,28 +164,33 @@
 
                             <!-- Processing State -->
                             <div id="processingState" class="hidden flex-col items-center gap-4 text-center">
-                                <h3 class="text-lg font-bold">Merging your files...</h3>
-                                <div class="w-full bg-slate-200 rounded-full h-2">
+                                <h3 class="text-lg font-bold text-text-light dark:text-text-dark">Merging your files...
+                                </h3>
+                                <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
                                     <div class="bg-primary h-2 rounded-full animate-pulse" style="width: 100%"></div>
                                 </div>
-                                <p class="text-sm text-text-secondary">Please wait while we combine your documents.</p>
+                                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Please wait
+                                    while we combine your documents.</p>
                             </div>
 
                             <!-- Success State -->
                             <div id="successState" class="hidden flex-col gap-5">
                                 <div class="flex items-center gap-3">
                                     <div
-                                        class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-green-100">
-                                        <span class="material-symbols-outlined text-green-600">check_circle</span>
+                                        class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
+                                        <span
+                                            class="material-symbols-outlined text-green-600 dark:text-green-400">check_circle</span>
                                     </div>
                                     <div>
-                                        <h3 class="text-lg font-bold">Merge Successful!</h3>
-                                        <p class="text-sm text-text-secondary">Your PDF has been created.</p>
+                                        <h3 class="text-lg font-bold text-text-light dark:text-text-dark">Merge
+                                            Successful!</h3>
+                                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Your
+                                            PDF has been created.</p>
                                     </div>
                                 </div>
-                                <p id="successMessage" class="text-sm text-text-primary"></p>
+                                <p id="successMessage" class="text-sm text-text-light dark:text-text-dark"></p>
                                 <button onclick="startOver()"
-                                    class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium transition-colors hover:bg-slate-100">
+                                    class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                                     <span class="material-symbols-outlined text-base">refresh</span>
                                     <span>Start Over</span>
                                 </button>
@@ -156,16 +200,18 @@
                             <div id="errorState" class="hidden flex-col gap-4">
                                 <div class="flex items-center gap-3">
                                     <div
-                                        class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-red-100">
-                                        <span class="material-symbols-outlined text-red-600">error</span>
+                                        class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
+                                        <span
+                                            class="material-symbols-outlined text-red-600 dark:text-red-400">error</span>
                                     </div>
                                     <div>
-                                        <h3 class="text-lg font-bold">Merge Failed</h3>
+                                        <h3 class="text-lg font-bold text-text-light dark:text-text-dark">Merge Failed
+                                        </h3>
                                     </div>
                                 </div>
-                                <p id="errorMessage" class="text-sm text-red-600"></p>
+                                <p id="errorMessage" class="text-sm text-red-600 dark:text-red-400"></p>
                                 <button onclick="startOver()"
-                                    class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium transition-colors hover:bg-slate-100">
+                                    class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                                     <span class="material-symbols-outlined text-base">refresh</span>
                                     <span>Try Again</span>
                                 </button>
@@ -179,6 +225,42 @@
 
     <script>
         let selectedFiles = [];
+
+        // Dark Mode Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        function updateThemeUI(isDark) {
+            if (isDark) {
+                themeIcon.textContent = 'light_mode';
+            } else {
+                themeIcon.textContent = 'dark_mode';
+            }
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+            htmlElement.classList.add('dark');
+            updateThemeUI(true);
+        } else {
+            htmlElement.classList.remove('dark');
+            updateThemeUI(false);
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                updateThemeUI(false);
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                updateThemeUI(true);
+            }
+        });
 
         function goHome() {
             if (window.pywebview && window.pywebview.api) {
@@ -233,16 +315,16 @@
                 const color = colors[index % colors.length];
 
                 const li = document.createElement('li');
-                li.className = 'flex items-center gap-4 p-4 transition-colors hover:bg-slate-50';
+                li.className = 'flex items-center gap-4 p-4 transition-colors hover:bg-slate-50 dark:hover:bg-white/5';
                 li.innerHTML = `
-                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-${color}-100">
-                        <span class="material-symbols-outlined text-${color}-600">picture_as_pdf</span>
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-${color}-100 dark:bg-${color}-900/30">
+                        <span class="material-symbols-outlined text-${color}-600 dark:text-${color}-400">picture_as_pdf</span>
                     </div>
                     <div class="flex-1">
-                        <p class="font-medium">${fileName}</p>
-                        <p class="text-sm text-text-secondary">PDF File</p>
+                        <p class="font-medium text-text-light dark:text-text-dark">${fileName}</p>
+                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">PDF File</p>
                     </div>
-                    <button onclick="removeFile(${index})" class="flex h-8 w-8 items-center justify-center rounded-full text-text-secondary/80 transition-colors hover:bg-slate-200 hover:text-text-primary">
+                    <button onclick="removeFile(${index})" class="flex h-8 w-8 items-center justify-center rounded-full text-text-secondary-light dark:text-text-secondary-dark transition-colors hover:bg-slate-200 dark:hover:bg-white/10 hover:text-text-light dark:hover:text-text-dark">
                         <span class="material-symbols-outlined text-xl">close</span>
                     </button>
                 `;

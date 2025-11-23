@@ -1,48 +1,24 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html class="dark" lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>PDF Hub - PDF'i Böl</title>
+    <title>Split PDF - PDF Pro</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap"
         rel="stylesheet" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <style>
         .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24
-        }
-
-        .page-thumbnail {
-            transition: all 0.2s;
-        }
-
-        .page-thumbnail:hover {
-            transform: scale(1.05);
-        }
-
-        .split-marker {
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #EF4444, transparent);
-            position: relative;
-        }
-
-        .split-marker::before {
-            content: '✂';
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            background: #EF4444;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 14px;
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
         }
 
         canvas {
@@ -51,16 +27,34 @@
             object-fit: contain;
         }
     </style>
-    <script>
+    <script id="tailwind-config">
         tailwind.config = {
+            darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": { DEFAULT: "#6366F1", light: "#E0E7FF", dark: "#4338CA" },
-                        "background": "#F8FAFC", "surface": "#FFFFFF",
-                        "text-primary": "#1E293B", "text-secondary": "#64748B", "border-color": "#E2E8F0"
+                        "primary": "#4F46E5",
+                        "primary-gradient-to": "#7C3AED",
+                        "background-light": "#F9FAFB",
+                        "background-dark": "#111827",
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#1F2937",
+                        "text-light": "#111827",
+                        "text-dark": "#D1D5DB",
+                        "text-secondary-light": "#6B7280",
+                        "text-secondary-dark": "#9CA3AF",
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#374151",
                     },
-                    fontFamily: { "sans": ["Inter", "sans-serif"] }
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
                 },
             },
         }
@@ -69,160 +63,255 @@
     </script>
 </head>
 
-<body class="font-sans bg-background text-text-primary">
-    <div class="flex min-h-screen w-full flex-col">
-        <header class="sticky top-0 z-20 border-b border-border-color bg-surface/80 backdrop-blur-sm">
-            <div class="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-3xl text-primary-dark cursor-pointer"
-                        onclick="goHome()">picture_as_pdf</span>
-                    <h1 class="text-lg font-bold">PDF Hub - PDF'i Böl</h1>
+<body class="font-display bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
+    <div class="flex h-screen w-full">
+        <!-- SideNavBar -->
+        <aside
+            class="flex h-full w-64 flex-col justify-between border-r border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-4 shrink-0">
+            <div class="flex flex-col gap-4">
+                <div class="flex items-center gap-3 px-2">
+                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                        data-alt="PDF Pro Application Logo"
+                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBnAQVnaDXGlB-00UjgA701wBDuBg_O3FephTGZhholNDYMC787GWt_XHLN3BjmUd1mkG45X_dw5FBbrn8-oUWu34AGTSbZONRRGHIUQIDVA613Z78DURh3goAMxAFiKq89GX0W9MsV-kg5oLfhCzgEsLOe3FhcIWqCIuUBphUONY_VGJfY2mZ-s4cEDIMiUaYNrAH7Ypl4ySTgG7tqOEmpDiqqx1HDIo8JpBpattd2nuNv7W7tDluRVkZUnUcF8Enuw73usJ-H4R4");'>
+                    </div>
+                    <div class="flex flex-col">
+                        <h1 class="text-base font-bold">PDF Pro</h1>
+                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Your PDF Toolkit</p>
+                    </div>
                 </div>
-                <button onclick="goHome()"
-                    class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-color bg-surface transition-colors hover:bg-slate-100">
-                    <span class="material-symbols-outlined text-xl text-text-secondary">home</span>
-                </button>
+                <nav class="flex flex-col gap-1 mt-4">
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer"
+                        onclick="window.pywebview.api.navigate('index')">
+                        <span
+                            class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">home</span>
+                        <p class="text-sm font-medium">Home</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">call_merge</span>
+                        <p class="text-sm font-medium">Merge PDF</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 dark:bg-primary/20" href="#">
+                        <span class="material-symbols-outlined text-primary">call_split</span>
+                        <p class="text-sm font-medium text-primary">Split PDF</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">compress</span>
+                        <p class="text-sm font-medium">Compress PDF</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">image</span>
+                        <p class="text-sm font-medium">Image to PDF</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">match_case</span>
+                        <p class="text-sm font-medium">PDF to Text</p>
+                    </a>
+                </nav>
             </div>
-        </header>
-        <main class="flex-1">
-            <div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
-                <div class="mb-8">
-                    <h2 class="text-3xl font-extrabold tracking-tight">PDF'i Böl</h2>
-                    <p class="mt-1.5 text-text-secondary">Sayfaları görsel olarak seçin ve bölün</p>
-                </div>
-
-                <!-- Empty State -->
-                <div id="emptyState"
-                    class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-border-color p-10 text-center bg-surface">
-                    <span class="material-symbols-outlined text-5xl text-text-secondary">upload_file</span>
-                    <div>
-                        <p class="text-lg font-bold">PDF Dosyası Seçin</p>
-                        <p class="text-sm text-text-secondary">Bölmek istediğiniz çok sayfalı PDF'i seçin</p>
+            <div class="flex flex-col gap-1">
+                <button id="theme-toggle"
+                    class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark"
+                        id="theme-icon">dark_mode</span>
+                    <p class="text-sm font-medium">Dark Mode</p>
+                    <div
+                        class="ml-auto relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200 dark:bg-gray-700 transition-colors">
+                        <span class="sr-only">Enable dark mode</span>
+                        <span id="theme-switch-knob"
+                            class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-1 dark:translate-x-6"></span>
                     </div>
-                    <button onclick="selectPDF()"
-                        class="flex h-10 min-w-[84px] items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-bold text-white hover:bg-primary-dark">
-                        <span class="material-symbols-outlined text-base">add</span>
-                        <span>Dosya Seç</span>
-                    </button>
+                </button>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                    href="#">
+                    <span
+                        class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">settings</span>
+                    <p class="text-sm font-medium">Settings</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                    href="#">
+                    <span
+                        class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">help</span>
+                    <p class="text-sm font-medium">Help</p>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col h-screen overflow-hidden">
+            <!-- PageHeading -->
+            <header class="p-8 border-b border-border-light dark:border-border-dark shrink-0">
+                <div class="flex flex-wrap justify-between items-center gap-3">
+                    <div class="flex min-w-72 flex-col gap-1">
+                        <p class="text-3xl font-bold leading-tight">Split PDF</p>
+                        <p
+                            class="text-text-secondary-light dark:text-text-secondary-dark text-base font-normal leading-normal">
+                            Select pages and choose a splitting method to create new PDF files.</p>
+                    </div>
                 </div>
-
-                <!-- Pages View -->
-                <div id="pagesView" class="hidden">
-                    <div class="flex items-center justify-between mb-6">
-                        <div>
-                            <h3 class="font-bold text-lg" id="pdfFileName"></h3>
-                            <p class="text-sm text-text-secondary"><span id="totalPages">0</span> sayfa</p>
+            </header>
+            <div class="flex flex-1 overflow-hidden">
+                <!-- Left Column: File Preview -->
+                <div class="flex-1 p-8 overflow-y-auto">
+                    <!-- EmptyState (initial view) -->
+                    <div id="emptyState"
+                        class="flex flex-col items-center justify-center gap-6 rounded-lg border-2 border-dashed border-border-light dark:border-border-dark p-14 h-full">
+                        <div class="flex flex-col items-center gap-2">
+                            <span
+                                class="material-symbols-outlined text-5xl text-text-secondary-light dark:text-text-secondary-dark">upload_file</span>
+                            <p class="text-lg font-bold">Drag & Drop PDF here</p>
+                            <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">or browse files
+                                to get started</p>
                         </div>
-                        <div class="flex gap-2">
-                            <button onclick="clearSplits()"
-                                class="flex h-9 items-center gap-2 rounded-md border border-border-color px-3 text-sm font-medium hover:bg-slate-100">
-                                <span class="material-symbols-outlined text-base">clear_all</span>
-                                <span>Temizle</span>
-                            </button>
-                            <button onclick="splitPDF()" id="splitBtn"
-                                class="flex h-9 items-center gap-2 rounded-md bg-primary px-4 text-sm font-semibold text-white hover:bg-primary-dark">
-                                <span class="material-symbols-outlined text-base">splitscreen</span>
-                                <span>Böl</span>
-                            </button>
+                        <button onclick="selectPDF()"
+                            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-wide bg-gradient-to-r from-primary to-primary-gradient-to shadow-sm">
+                            <span class="truncate">Browse Files</span>
+                        </button>
+                    </div>
+
+                    <!-- Active State: Page Thumbnail Grid -->
+                    <div id="activeState" class="hidden flex-col gap-6">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-lg" id="fileName">sample-document.pdf</h3>
                             <button onclick="clearFile()"
-                                class="flex h-8 w-8 items-center justify-center rounded-full text-text-secondary/80 hover:bg-slate-200">
-                                <span class="material-symbols-outlined text-xl">close</span>
+                                class="flex items-center gap-2 min-w-[84px] cursor-pointer justify-center overflow-hidden rounded-lg h-9 px-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark text-sm font-medium leading-normal shadow-sm hover:bg-black/5 dark:hover:bg-white/5">
+                                <span class="material-symbols-outlined text-base">close</span>
+                                <span class="truncate">Clear File</span>
                             </button>
                         </div>
-                    </div>
-
-                    <div class="bg-white rounded-xl border border-border-color p-6 mb-4">
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="material-symbols-outlined text-2xl text-primary">info</span>
-                            <div>
-                                <p class="font-medium">Nasıl Kullanılır</p>
-                                <p class="text-sm text-text-secondary">Sayfaların ARALIĞINA tıklayarak bölme noktası
-                                    ekleyin. Kesilen kısımların her biri ayrı PDF olacak.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2 text-sm">
-                            <div class="flex items-center gap-1">
-                                <div class="w-4 h-4 rounded bg-blue-100 border-2 border-blue-500"></div>
-                                <span>Seçili</span>
-                            </div>
-                            <div class="flex items-center gap-1 ml-4">
-                                <div class="split-marker w-12" style="height: 3px;"></div>
-                                <span>Bölme Noktası</span>
-                            </div>
+                        <div id="pageGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                            <!-- Pages will be injected here -->
                         </div>
                     </div>
-
-                    <!-- Loading State -->
-                    <div id="loadingPages" class="flex items-center justify-center p-10">
-                        <div class="text-center">
-                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4">
+                </div>
+                <!-- Right Column: Options Panel -->
+                <aside
+                    class="w-96 border-l border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark flex flex-col shrink-0">
+                    <div class="flex-1 p-6 space-y-6 overflow-y-auto">
+                        <!-- SectionHeader -->
+                        <h2 class="text-xl font-bold leading-tight">Split Options</h2>
+                        <!-- RadioList -->
+                        <div class="flex flex-col gap-3">
+                            <label
+                                class="flex items-start gap-4 rounded-lg border border-primary p-4 cursor-pointer bg-primary/5 dark:bg-primary/10">
+                                <input checked=""
+                                    class="mt-1 h-5 w-5 border-2 border-border-light dark:border-border-dark bg-transparent text-primary focus:ring-primary checked:border-primary"
+                                    name="split_option" type="radio" value="range" />
+                                <div class="flex grow flex-col">
+                                    <p class="text-sm font-medium">Split by page range</p>
+                                    <p
+                                        class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-normal">
+                                        Create one PDF from a specific range of pages.</p>
+                                </div>
+                            </label>
+                            <!-- Other options disabled for now as they require more complex logic -->
+                            <label
+                                class="flex items-start gap-4 rounded-lg border border-border-light dark:border-border-dark p-4 cursor-pointer hover:border-primary/50 dark:hover:border-primary/50 opacity-50">
+                                <input disabled
+                                    class="mt-1 h-5 w-5 border-2 border-border-light dark:border-border-dark bg-transparent text-primary focus:ring-primary checked:border-primary"
+                                    name="split_option" type="radio" value="fixed" />
+                                <div class="flex grow flex-col">
+                                    <p class="text-sm font-medium">Split into fixed ranges</p>
+                                    <p
+                                        class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-normal">
+                                        Divide the PDF into multiple files of N pages each. (Coming Soon)</p>
+                                </div>
+                            </label>
+                            <label
+                                class="flex items-start gap-4 rounded-lg border border-border-light dark:border-border-dark p-4 cursor-pointer hover:border-primary/50 dark:hover:border-primary/50 opacity-50">
+                                <input disabled
+                                    class="mt-1 h-5 w-5 border-2 border-border-light dark:border-border-dark bg-transparent text-primary focus:ring-primary checked:border-primary"
+                                    name="split_option" type="radio" value="extract" />
+                                <div class="flex grow flex-col">
+                                    <p class="text-sm font-medium">Extract selected pages</p>
+                                    <p
+                                        class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-normal">
+                                        Create a new PDF from individually selected pages. (Coming Soon)</p>
+                                </div>
+                            </label>
+                        </div>
+                        <!-- Mode-specific controls -->
+                        <div class="border-t border-border-light dark:border-border-dark pt-6 space-y-4">
+                            <label class="block text-sm font-medium text-text-light dark:text-text-dark"
+                                for="page-range">Page Ranges</label>
+                            <input
+                                class="w-full rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark p-2 focus:ring-primary focus:border-primary text-sm"
+                                id="page-range" name="page-range" placeholder="e.g., 1-5, 8, 10-12" type="text" />
+                            <p class="text-xs text-text-secondary-light dark:text-text-secondary-dark">Use commas to
+                                separate page numbers or ranges.</p>
+                            <!-- Error state -->
+                            <div id="rangeError" class="hidden items-center gap-2 text-red-500">
+                                <span class="material-symbols-outlined text-base">error</span>
+                                <p class="text-xs">Invalid range format.</p>
                             </div>
-                            <p class="text-text-secondary">Sayfalar yükleniyor...</p>
                         </div>
                     </div>
-
-                    <!-- Page Grid -->
-                    <div id="pageGrid"
-                        class="hidden grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-3 max-h-[600px] overflow-y-auto p-2 bg-white rounded-xl border border-border-color">
+                    <!-- Action Area -->
+                    <div class="p-6 border-t border-border-light dark:border-border-dark mt-auto space-y-4">
+                        <button onclick="splitPDF()"
+                            class="w-full flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-primary text-white text-base font-bold tracking-wide bg-gradient-to-r from-primary to-primary-gradient-to shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-shadow">
+                            <span class="truncate">Split PDF</span>
+                        </button>
+                        <p id="statusMessage"
+                            class="text-center text-sm text-text-secondary-light dark:text-text-secondary-dark"></p>
                     </div>
-
-                    <!-- Split Info -->
-                    <div id="splitInfo" class="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg hidden">
-                        <p class="text-sm font-medium text-green-800">
-                            <span id="splitCount">0</span> adet PDF dosyası oluşturulacak
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Processing/Success/Error States -->
-                <div id="processingState" class="hidden flex-col items-center gap-4 text-center p-10">
-                    <h3 class="text-lg font-bold">PDF Bölünüyor...</h3>
-                    <div class="w-full max-w-md bg-slate-200 rounded-full h-2">
-                        <div class="bg-primary h-2 rounded-full animate-pulse" style="width: 100%"></div>
-                    </div>
-                    <p class="text-sm text-text-secondary">Lütfen bekleyin...</p>
-                </div>
-
-                <div id="successState" class="hidden flex-col items-center gap-4 p-10">
-                    <div class="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-                        <span class="material-symbols-outlined text-green-600 text-4xl">check_circle</span>
-                    </div>
-                    <h3 class="text-2xl font-bold">Başarılı!</h3>
-                    <p id="successMessage" class="text-text-secondary"></p>
-                    <button onclick="startOver()"
-                        class="flex h-10 items-center gap-2 rounded-md px-6 text-sm font-medium hover:bg-slate-100">
-                        <span class="material-symbols-outlined text-base">refresh</span>
-                        <span>Yeni PDF Böl</span>
-                    </button>
-                </div>
-
-                <div id="errorState" class="hidden flex-col items-center gap-4 p-10">
-                    <div class="flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
-                        <span class="material-symbols-outlined text-red-600 text-4xl">error</span>
-                    </div>
-                    <h3 class="text-2xl font-bold">Hata!</h3>
-                    <p id="errorMessage" class="text-red-600"></p>
-                    <button onclick="startOver()"
-                        class="flex h-10 items-center gap-2 rounded-md px-6 text-sm font-medium hover:bg-slate-100">
-                        <span class="material-symbols-outlined text-base">refresh</span>
-                        <span>Tekrar Dene</span>
-                    </button>
-                </div>
+                </aside>
             </div>
         </main>
     </div>
 
     <script>
-        let selectedFile = null;
-        let totalPagesCount = 0;
-        let splitMarkers = new Set();
-        let pdfDoc = null;
+        // Dark Mode Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeSwitchKnob = document.getElementById('theme-switch-knob');
+        const htmlElement = document.documentElement;
 
-        function goHome() {
-            if (window.pywebview && window.pywebview.api) {
-                window.pywebview.api.navigate('index');
+        function updateThemeUI(isDark) {
+            if (isDark) {
+                themeIcon.textContent = 'light_mode';
+                themeSwitchKnob.classList.remove('translate-x-1');
+                themeSwitchKnob.classList.add('translate-x-6');
+            } else {
+                themeIcon.textContent = 'dark_mode';
+                themeSwitchKnob.classList.remove('translate-x-6');
+                themeSwitchKnob.classList.add('translate-x-1');
             }
         }
+
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+            htmlElement.classList.add('dark');
+            updateThemeUI(true);
+        } else {
+            htmlElement.classList.remove('dark');
+            updateThemeUI(false);
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                updateThemeUI(false);
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                updateThemeUI(true);
+            }
+        });
+
+        // Application Logic
+        let selectedFile = null;
+        let totalPagesCount = 0;
+        let pdfDoc = null;
 
         async function selectPDF() {
             if (window.pywebview && window.pywebview.api) {
@@ -231,6 +320,8 @@
                     selectedFile = files[0];
                     await loadPDFPages();
                 }
+            } else {
+                console.log("Pywebview API not available");
             }
         }
 
@@ -238,32 +329,29 @@
             if (!selectedFile || !window.pywebview || !window.pywebview.api) return;
 
             try {
-                // Get PDF info
                 const info = await window.pywebview.api.get_pdf_info(selectedFile);
-
                 if (!info.success) {
-                    alert('PDF bilgisi alınamadı: ' + info.error);
+                    alert('Error loading PDF: ' + info.error);
                     return;
                 }
 
                 totalPagesCount = info.page_count;
                 const fileName = selectedFile.split('/').pop();
+                document.getElementById('fileName').textContent = fileName;
 
+                // Switch views
                 document.getElementById('emptyState').classList.add('hidden');
-                document.getElementById('pagesView').classList.remove('hidden');
-                document.getElementById('loadingPages').classList.remove('hidden');
-                document.getElementById('pdfFileName').textContent = fileName;
-                document.getElementById('totalPages').textContent = totalPagesCount;
+                document.getElementById('activeState').classList.remove('hidden');
+                document.getElementById('activeState').classList.add('flex');
 
-                // Get PDF data for rendering
+                // Get PDF data
                 const pdfData = await window.pywebview.api.get_pdf_data(selectedFile);
-
                 if (!pdfData.success) {
-                    alert('PDF verisi alınamadı: ' + pdfData.error);
+                    alert('Error getting PDF data: ' + pdfData.error);
                     return;
                 }
 
-                // Load PDF with PDF.js
+                // Load PDF
                 const pdfBytes = atob(pdfData.data);
                 const pdfArray = new Uint8Array(pdfBytes.length);
                 for (let i = 0; i < pdfBytes.length; i++) {
@@ -271,14 +359,10 @@
                 }
 
                 pdfDoc = await pdfjsLib.getDocument({ data: pdfArray }).promise;
-
                 await renderPages();
 
-                document.getElementById('loadingPages').classList.add('hidden');
-                document.getElementById('pageGrid').classList.remove('hidden');
-
             } catch (error) {
-                alert('Hata: ' + error);
+                alert('Error: ' + error);
                 console.error(error);
             }
         }
@@ -286,20 +370,19 @@
         async function renderPages() {
             const grid = document.getElementById('pageGrid');
             grid.innerHTML = '';
-            splitMarkers.clear();
 
             for (let i = 1; i <= totalPagesCount; i++) {
-                const pageDiv = document.createElement('div');
-                pageDiv.className = 'flex flex-col gap-1';
+                // Container
+                const pageContainer = document.createElement('div');
+                pageContainer.className = 'relative group cursor-pointer';
 
-                // Page thumbnail container
-                const thumb = document.createElement('div');
-                thumb.className = 'page-thumbnail aspect-[3/4] rounded-lg border-2 border-slate-300 bg-white overflow-hidden shadow-sm';
+                // Aspect ratio box
+                const aspectBox = document.createElement('div');
+                aspectBox.className = 'aspect-[3/4] bg-surface-light dark:bg-surface-dark rounded-lg border-2 border-transparent ring-1 ring-border-light dark:ring-border-dark group-hover:scale-105 transition-transform duration-200 overflow-hidden';
 
-                // Render page to canvas
+                // Canvas
                 const page = await pdfDoc.getPage(i);
                 const viewport = page.getViewport({ scale: 0.5 });
-
                 const canvas = document.createElement('canvas');
                 const context = canvas.getContext('2d');
                 canvas.height = viewport.height;
@@ -310,137 +393,62 @@
                     viewport: viewport
                 }).promise;
 
-                thumb.appendChild(canvas);
+                aspectBox.appendChild(canvas);
+                pageContainer.appendChild(aspectBox);
 
-                // Page number badge
-                const badge = document.createElement('div');
-                badge.className = 'absolute top-1 left-1 bg-primary text-white text-xs font-bold px-2 py-0.5 rounded';
-                badge.textContent = i;
-                thumb.style.position = 'relative';
-                thumb.appendChild(badge);
+                // Page Number
+                const pageNum = document.createElement('div');
+                pageNum.className = 'absolute top-2 left-2 size-5 bg-primary text-white flex items-center justify-center rounded-full text-xs font-bold';
+                pageNum.textContent = i;
+                pageContainer.appendChild(pageNum);
 
-                // Marker line (clickable area between pages)
-                if (i < totalPagesCount) {
-                    const markerDiv = document.createElement('div');
-                    markerDiv.className = 'h-8 flex items-center justify-center cursor-pointer hover:bg-red-50 rounded transition-colors';
-                    markerDiv.innerHTML = `
-                        <div class="w-full h-0.5 bg-slate-200 hover:h-1 hover:bg-red-300 transition-all"></div>
-                    `;
-                    markerDiv.onclick = () => toggleSplitMarker(i);
-                    markerDiv.id = `marker-${i}`;
-
-                    pageDiv.appendChild(thumb);
-                    pageDiv.appendChild(markerDiv);
-                } else {
-                    pageDiv.appendChild(thumb);
-                }
-
-                grid.appendChild(pageDiv);
+                grid.appendChild(pageContainer);
             }
-
-            updateSplitInfo();
-        }
-
-        function toggleSplitMarker(afterPage) {
-            if (splitMarkers.has(afterPage)) {
-                splitMarkers.delete(afterPage);
-            } else {
-                splitMarkers.add(afterPage);
-            }
-
-            const marker = document.getElementById(`marker-${afterPage}`);
-            if (marker) {
-                if (splitMarkers.has(afterPage)) {
-                    marker.innerHTML = '<div class="split-marker"></div>';
-                } else {
-                    marker.innerHTML = '<div class="w-full h-0.5 bg-slate-200 hover:h-1 hover:bg-red-300 transition-all"></div>';
-                }
-            }
-
-            updateSplitInfo();
-        }
-
-        function updateSplitInfo() {
-            const info = document.getElementById('splitInfo');
-            const count = document.getElementById('splitCount');
-
-            if (splitMarkers.size > 0) {
-                info.classList.remove('hidden');
-                count.textContent = splitMarkers.size + 1;
-            } else {
-                info.classList.add('hidden');
-            }
-        }
-
-        function clearSplits() {
-            splitMarkers.clear();
-            const grid = document.getElementById('pageGrid');
-            for (let i = 1; i < totalPagesCount; i++) {
-                const marker = document.getElementById(`marker-${i}`);
-                if (marker) {
-                    marker.innerHTML = '<div class="w-full h-0.5 bg-slate-200 hover:h-1 hover:bg-red-300 transition-all"></div>';
-                }
-            }
-            updateSplitInfo();
         }
 
         function clearFile() {
             selectedFile = null;
             totalPagesCount = 0;
-            splitMarkers.clear();
             pdfDoc = null;
-            document.getElementById('pagesView').classList.add('hidden');
-            document.getElementById('pageGrid').classList.add('hidden');
+            document.getElementById('activeState').classList.add('hidden');
+            document.getElementById('activeState').classList.remove('flex');
             document.getElementById('emptyState').classList.remove('hidden');
+            document.getElementById('pageGrid').innerHTML = '';
+            document.getElementById('page-range').value = '';
         }
 
         async function splitPDF() {
-            if (!selectedFile || splitMarkers.size === 0) {
-                alert('Lütfen en az bir bölme noktası ekleyin!');
+            if (!selectedFile) {
+                alert('Please select a PDF file first.');
                 return;
             }
 
-            const sortedMarkers = Array.from(splitMarkers).sort((a, b) => a - b);
-            const ranges = [];
-            let start = 1;
-
-            for (const marker of sortedMarkers) {
-                ranges.push(`${start}-${marker}`);
-                start = marker + 1;
+            const rangeInput = document.getElementById('page-range').value.trim();
+            if (!rangeInput) {
+                document.getElementById('rangeError').classList.remove('hidden');
+                return;
             }
+            document.getElementById('rangeError').classList.add('hidden');
 
-            if (start <= totalPagesCount) {
-                ranges.push(`${start}-${totalPagesCount}`);
-            }
-
-            document.getElementById('pagesView').classList.add('hidden');
-            document.getElementById('processingState').classList.remove('hidden');
+            // Parse ranges (simple split by comma)
+            const ranges = rangeInput.split(',').map(r => r.trim()).filter(r => r);
 
             if (window.pywebview && window.pywebview.api) {
                 try {
+                    document.getElementById('statusMessage').textContent = "Processing...";
                     const result = await window.pywebview.api.split_pdf(selectedFile, ranges);
 
-                    document.getElementById('processingState').classList.add('hidden');
-
                     if (result.success) {
-                        document.getElementById('successMessage').textContent = result.message || `${result.files.length} adet PDF dosyası oluşturuldu`;
-                        document.getElementById('successState').classList.remove('hidden');
+                        document.getElementById('statusMessage').textContent = result.message;
+                        document.getElementById('statusMessage').className = "text-center text-sm text-green-500 font-medium";
                     } else {
-                        document.getElementById('errorMessage').textContent = result.error || 'Bir hata oluştu';
-                        document.getElementById('errorState').classList.remove('hidden');
+                        document.getElementById('statusMessage').textContent = "Error: " + result.error;
+                        document.getElementById('statusMessage').className = "text-center text-sm text-red-500 font-medium";
                     }
                 } catch (error) {
-                    document.getElementById('processingState').classList.add('hidden');
-                    document.getElementById('errorMessage').textContent = error.toString();
-                    document.getElementById('errorState').classList.remove('hidden');
+                    document.getElementById('statusMessage').textContent = "Error: " + error;
                 }
             }
-        }
-
-        function startOver() {
-            document.getElementById('successState').classList.add('hidden');
-            document.getElementById('errorState').classList.add('hidden');
-            clearFile();
         }
     </script>
 </body>
