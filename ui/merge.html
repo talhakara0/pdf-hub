@@ -87,9 +87,14 @@
                 <div class="flex items-center gap-3">
                     <span class="material-symbols-outlined text-3xl text-primary cursor-pointer"
                         onclick="goHome()">picture_as_pdf</span>
-                    <h1 class="text-lg font-bold text-text-light dark:text-text-dark">PDF Hub - Merge</h1>
+                    <h1 class="text-lg font-bold text-text-light dark:text-text-dark" data-i18n="pageTitle">PDF Hub - Merge</h1>
                 </div>
                 <div class="flex items-center gap-2">
+                    <button id="lang-toggle"
+                        class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-secondary-light dark:text-text-secondary-dark transition-colors hover:bg-slate-100 dark:hover:bg-white/5"
+                        title="Toggle Language">
+                        <span class="text-sm font-bold" id="lang-icon">TR</span>
+                    </button>
                     <button id="theme-toggle"
                         class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-secondary-light dark:text-text-secondary-dark transition-colors hover:bg-slate-100 dark:hover:bg-white/5">
                         <span class="material-symbols-outlined text-xl" id="theme-icon">dark_mode</span>
@@ -105,9 +110,9 @@
         <main class="flex-1">
             <div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-extrabold tracking-tight text-text-light dark:text-text-dark">Merge PDF
+                    <h2 class="text-3xl font-extrabold tracking-tight text-text-light dark:text-text-dark" data-i18n="mergeTitle">Merge PDF
                         Files</h2>
-                    <p class="mt-1.5 text-text-secondary-light dark:text-text-secondary-dark">Combine multiple PDFs into
+                    <p class="mt-1.5 text-text-secondary-light dark:text-text-secondary-dark" data-i18n="mergeDesc">Combine multiple PDFs into
                         a single, organized document.</p>
                 </div>
                 <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
@@ -117,12 +122,12 @@
                             class="hidden flex-col rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark shadow-sm">
                             <div
                                 class="flex items-center justify-between border-b border-border-light dark:border-border-dark p-4">
-                                <h3 class="font-semibold text-text-light dark:text-text-dark">Files to Merge (<span
+                                <h3 class="font-semibold text-text-light dark:text-text-dark" data-i18n="filesToMerge">Files to Merge (<span
                                         id="fileCount">0</span>)</h3>
                                 <button onclick="addMoreFiles()"
                                     class="flex h-9 items-center justify-center gap-2 rounded-md border border-border-light dark:border-border-dark px-3 text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                                     <span class="material-symbols-outlined text-base">add</span>
-                                    <span>Add More Files</span>
+                                    <span data-i18n="addMoreFiles">Add More Files</span>
                                 </button>
                             </div>
                             <ul id="fileList" class="divide-y divide-border-light dark:divide-border-dark"></ul>
@@ -134,15 +139,15 @@
                             <span
                                 class="material-symbols-outlined text-5xl text-text-secondary-light dark:text-text-secondary-dark">upload_file</span>
                             <div class="flex flex-col items-center gap-1">
-                                <p class="text-lg font-bold text-text-light dark:text-text-dark">Select PDF files to
+                                <p class="text-lg font-bold text-text-light dark:text-text-dark" data-i18n="selectFilesToMerge">Select PDF files to
                                     merge</p>
-                                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">You can
+                                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark" data-i18n="selectMultipleFiles">You can
                                     select multiple files at once</p>
                             </div>
                             <button onclick="selectPDFs()"
                                 class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-md bg-primary px-4 text-sm font-bold text-white transition-colors hover:bg-primary/90">
                                 <span class="material-symbols-outlined text-base">add</span>
-                                <span class="truncate">Select Files</span>
+                                <span class="truncate" data-i18n="selectFiles">Select Files</span>
                             </button>
                         </div>
                     </div>
@@ -151,25 +156,25 @@
                             class="sticky top-24 flex flex-col gap-6 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-6 shadow-sm">
                             <!-- Ready State -->
                             <div id="readyState" class="hidden flex-col gap-4">
-                                <h3 class="text-lg font-bold text-text-light dark:text-text-dark">Merge Options</h3>
-                                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Click the
+                                <h3 class="text-lg font-bold text-text-light dark:text-text-dark" data-i18n="mergeOptions">Merge Options</h3>
+                                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark" data-i18n="mergeInstructions">Click the
                                     button below to combine your files into
                                     one PDF.</p>
                                 <button onclick="mergePDFs()" id="mergeBtn"
                                     class="flex h-11 w-full items-center justify-center gap-2 rounded-md bg-primary px-4 text-base font-semibold text-white shadow-sm transition-colors hover:bg-primary/90">
                                     <span class="material-symbols-outlined">merge_type</span>
-                                    <span>Merge PDFs</span>
+                                    <span data-i18n="mergePdfsBtn">Merge PDFs</span>
                                 </button>
                             </div>
 
                             <!-- Processing State -->
                             <div id="processingState" class="hidden flex-col items-center gap-4 text-center">
-                                <h3 class="text-lg font-bold text-text-light dark:text-text-dark">Merging your files...
+                                <h3 class="text-lg font-bold text-text-light dark:text-text-dark" data-i18n="merging">Merging your files...
                                 </h3>
                                 <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
                                     <div class="bg-primary h-2 rounded-full animate-pulse" style="width: 100%"></div>
                                 </div>
-                                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Please wait
+                                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark" data-i18n="pleaseWait">Please wait
                                     while we combine your documents.</p>
                             </div>
 
@@ -182,9 +187,9 @@
                                             class="material-symbols-outlined text-green-600 dark:text-green-400">check_circle</span>
                                     </div>
                                     <div>
-                                        <h3 class="text-lg font-bold text-text-light dark:text-text-dark">Merge
+                                        <h3 class="text-lg font-bold text-text-light dark:text-text-dark" data-i18n="mergeSuccess">Merge
                                             Successful!</h3>
-                                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Your
+                                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark" data-i18n="pdfCreated">Your
                                             PDF has been created.</p>
                                     </div>
                                 </div>
@@ -192,7 +197,7 @@
                                 <button onclick="startOver()"
                                     class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                                     <span class="material-symbols-outlined text-base">refresh</span>
-                                    <span>Start Over</span>
+                                    <span data-i18n="startOver">Start Over</span>
                                 </button>
                             </div>
 
@@ -205,7 +210,7 @@
                                             class="material-symbols-outlined text-red-600 dark:text-red-400">error</span>
                                     </div>
                                     <div>
-                                        <h3 class="text-lg font-bold text-text-light dark:text-text-dark">Merge Failed
+                                        <h3 class="text-lg font-bold text-text-light dark:text-text-dark" data-i18n="mergeFailed">Merge Failed
                                         </h3>
                                     </div>
                                 </div>
@@ -213,7 +218,7 @@
                                 <button onclick="startOver()"
                                     class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                                     <span class="material-symbols-outlined text-base">refresh</span>
-                                    <span>Try Again</span>
+                                    <span data-i18n="tryAgain">Try Again</span>
                                 </button>
                             </div>
                         </div>
@@ -225,6 +230,79 @@
 
     <script>
         let selectedFiles = [];
+
+        // Language translations
+        const translations = {
+            en: {
+                pageTitle: 'PDF Hub - Merge',
+                mergeTitle: 'Merge PDF Files',
+                mergeDesc: 'Combine multiple PDFs into a single, organized document.',
+                filesToMerge: 'Files to Merge',
+                addMoreFiles: 'Add More Files',
+                selectFilesToMerge: 'Select PDF files to merge',
+                selectMultipleFiles: 'You can select multiple files at once',
+                selectFiles: 'Select Files',
+                mergeOptions: 'Merge Options',
+                mergeInstructions: 'Click the button below to combine your files into one PDF.',
+                mergePdfsBtn: 'Merge PDFs',
+                merging: 'Merging your files...',
+                pleaseWait: 'Please wait while we combine your documents.',
+                mergeSuccess: 'Merge Successful!',
+                pdfCreated: 'Your PDF has been created.',
+                startOver: 'Start Over',
+                mergeFailed: 'Merge Failed',
+                tryAgain: 'Try Again'
+            },
+            tr: {
+                pageTitle: 'PDF Hub - Birleştir',
+                mergeTitle: 'PDF Dosyalarını Birleştir',
+                mergeDesc: 'Birden fazla PDF\'yi tek bir düzenli belgede birleştirin.',
+                filesToMerge: 'Birleştirilecek Dosyalar',
+                addMoreFiles: 'Daha Fazla Dosya Ekle',
+                selectFilesToMerge: 'Birleştirmek için PDF dosyalarını seçin',
+                selectMultipleFiles: 'Birden fazla dosyayı aynı anda seçebilirsiniz',
+                selectFiles: 'Dosya Seç',
+                mergeOptions: 'Birleştirme Seçenekleri',
+                mergeInstructions: 'Dosyalarınızı tek bir PDF\'de birleştirmek için aşağıdaki düğmeye tıklayın.',
+                mergePdfsBtn: 'PDF\'leri Birleştir',
+                merging: 'Dosyalarınız birleştiriliyor...',
+                pleaseWait: 'Belgeleriniz birleştirilirken lütfen bekleyin.',
+                mergeSuccess: 'Birleştirme Başarılı!',
+                pdfCreated: 'PDF\'niz oluşturuldu.',
+                startOver: 'Baştan Başla',
+                mergeFailed: 'Birleştirme Başarısız',
+                tryAgain: 'Tekrar Dene'
+            }
+        };
+
+        // Language Logic
+        const langToggleBtn = document.getElementById('lang-toggle');
+        const langIcon = document.getElementById('lang-icon');
+        
+        function updateLanguageUI(lang) {
+            langIcon.textContent = lang === 'tr' ? 'EN' : 'TR';
+        }
+
+        function setLanguage(lang) {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            localStorage.setItem('language', lang);
+            updateLanguageUI(lang);
+        }
+
+        const savedLang = localStorage.getItem('language') || 'en';
+        setLanguage(savedLang);
+
+        langToggleBtn.addEventListener('click', () => {
+            const currentLang = localStorage.getItem('language') || 'en';
+            const newLang = currentLang === 'en' ? 'tr' : 'en';
+            setLanguage(newLang);
+        });
 
         // Dark Mode Logic
         const themeToggleBtn = document.getElementById('theme-toggle');

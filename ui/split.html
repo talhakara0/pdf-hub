@@ -84,44 +84,49 @@
                         onclick="window.pywebview.api.navigate('index')">
                         <span
                             class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">home</span>
-                        <p class="text-sm font-medium">Home</p>
+                        <p class="text-sm font-medium text-text-light dark:text-text-dark" data-i18n="home">Home</p>
                     </a>
                     <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                         href="#">
                         <span
                             class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">call_merge</span>
-                        <p class="text-sm font-medium">Merge PDF</p>
+                        <p class="text-sm font-medium text-text-light dark:text-text-dark" data-i18n="mergePdf">Merge PDF</p>
                     </a>
                     <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 dark:bg-primary/20" href="#">
                         <span class="material-symbols-outlined text-primary">call_split</span>
-                        <p class="text-sm font-medium text-primary">Split PDF</p>
+                        <p class="text-sm font-medium text-primary" data-i18n="splitPdf">Split PDF</p>
                     </a>
                     <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                         href="#">
                         <span
                             class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">compress</span>
-                        <p class="text-sm font-medium">Compress PDF</p>
+                        <p class="text-sm font-medium text-text-light dark:text-text-dark" data-i18n="compressPdf">Compress PDF</p>
                     </a>
                     <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                         href="#">
                         <span
                             class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">image</span>
-                        <p class="text-sm font-medium">Image to PDF</p>
+                        <p class="text-sm font-medium text-text-light dark:text-text-dark" data-i18n="imageToPdf">Image to PDF</p>
                     </a>
                     <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                         href="#">
                         <span
                             class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">match_case</span>
-                        <p class="text-sm font-medium">PDF to Text</p>
+                        <p class="text-sm font-medium text-text-light dark:text-text-dark" data-i18n="pdfToText">PDF to Text</p>
                     </a>
                 </nav>
             </div>
             <div class="flex flex-col gap-1">
+                <button id="lang-toggle"
+                    class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer">
+                    <span class="text-sm font-bold text-text-secondary-light dark:text-text-secondary-dark" id="lang-icon">TR</span>
+                    <p class="text-sm font-medium" data-i18n="language">Language</p>
+                </button>
                 <button id="theme-toggle"
                     class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer">
                     <span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark"
                         id="theme-icon">dark_mode</span>
-                    <p class="text-sm font-medium">Dark Mode</p>
+                    <p class="text-sm font-medium" data-i18n="darkMode">Dark Mode</p>
                     <div
                         class="ml-auto relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200 dark:bg-gray-700 transition-colors">
                         <span class="sr-only">Enable dark mode</span>
@@ -133,13 +138,13 @@
                     href="#">
                     <span
                         class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">settings</span>
-                    <p class="text-sm font-medium">Settings</p>
+                    <p class="text-sm font-medium text-text-light dark:text-text-dark" data-i18n="settings">Settings</p>
                 </a>
                 <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                     href="#">
                     <span
                         class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark">help</span>
-                    <p class="text-sm font-medium">Help</p>
+                    <p class="text-sm font-medium text-text-light dark:text-text-dark" data-i18n="help">Help</p>
                 </a>
             </div>
         </aside>
@@ -149,9 +154,9 @@
             <header class="p-8 border-b border-border-light dark:border-border-dark shrink-0">
                 <div class="flex flex-wrap justify-between items-center gap-3">
                     <div class="flex min-w-72 flex-col gap-1">
-                        <p class="text-3xl font-bold leading-tight">Split PDF</p>
+                        <p class="text-3xl font-bold leading-tight text-text-light dark:text-text-dark" data-i18n="splitPdfTitle">Split PDF</p>
                         <p
-                            class="text-text-secondary-light dark:text-text-secondary-dark text-base font-normal leading-normal">
+                            class="text-text-secondary-light dark:text-text-secondary-dark text-base font-normal leading-normal" data-i18n="splitPdfDesc">
                             Select pages and choose a splitting method to create new PDF files.</p>
                     </div>
                 </div>
@@ -165,13 +170,13 @@
                         <div class="flex flex-col items-center gap-2">
                             <span
                                 class="material-symbols-outlined text-5xl text-text-secondary-light dark:text-text-secondary-dark">upload_file</span>
-                            <p class="text-lg font-bold">Drag & Drop PDF here</p>
-                            <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">or browse files
+                            <p class="text-lg font-bold text-text-light dark:text-text-dark" data-i18n="dragDropPdf">Drag & Drop PDF here</p>
+                            <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark" data-i18n="orBrowseFiles">or browse files
                                 to get started</p>
                         </div>
                         <button onclick="selectPDF()"
                             class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-wide bg-gradient-to-r from-primary to-primary-gradient-to shadow-sm">
-                            <span class="truncate">Browse Files</span>
+                            <span class="truncate" data-i18n="browseFiles">Browse Files</span>
                         </button>
                     </div>
 
@@ -182,7 +187,7 @@
                             <button onclick="clearFile()"
                                 class="flex items-center gap-2 min-w-[84px] cursor-pointer justify-center overflow-hidden rounded-lg h-9 px-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark text-sm font-medium leading-normal shadow-sm hover:bg-black/5 dark:hover:bg-white/5">
                                 <span class="material-symbols-outlined text-base">close</span>
-                                <span class="truncate">Clear File</span>
+                                <span class="truncate" data-i18n="clearFile">Clear File</span>
                             </button>
                         </div>
                         <div id="pageGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -195,7 +200,7 @@
                     class="w-96 border-l border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark flex flex-col shrink-0">
                     <div class="flex-1 p-6 space-y-6 overflow-y-auto">
                         <!-- SectionHeader -->
-                        <h2 class="text-xl font-bold leading-tight">Split Options</h2>
+                        <h2 class="text-xl font-bold leading-tight text-text-light dark:text-text-dark" data-i18n="splitOptions">Split Options</h2>
                         <!-- RadioList -->
                         <div class="flex flex-col gap-3">
                             <label
@@ -204,9 +209,9 @@
                                     class="mt-1 h-5 w-5 border-2 border-border-light dark:border-border-dark bg-transparent text-primary focus:ring-primary checked:border-primary"
                                     name="split_option" type="radio" value="range" />
                                 <div class="flex grow flex-col">
-                                    <p class="text-sm font-medium">Split by page range</p>
+                                    <p class="text-sm font-medium text-text-light dark:text-text-dark" data-i18n="splitByPageRange">Split by page range</p>
                                     <p
-                                        class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-normal">
+                                        class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-normal" data-i18n="splitByPageRangeDesc">
                                         Create one PDF from a specific range of pages.</p>
                                 </div>
                             </label>
@@ -217,9 +222,9 @@
                                     class="mt-1 h-5 w-5 border-2 border-border-light dark:border-border-dark bg-transparent text-primary focus:ring-primary checked:border-primary"
                                     name="split_option" type="radio" value="fixed" />
                                 <div class="flex grow flex-col">
-                                    <p class="text-sm font-medium">Split into fixed ranges</p>
+                                    <p class="text-sm font-medium text-text-light dark:text-text-dark" data-i18n="splitIntoFixedRanges">Split into fixed ranges</p>
                                     <p
-                                        class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-normal">
+                                        class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-normal" data-i18n="splitIntoFixedRangesDesc">
                                         Divide the PDF into multiple files of N pages each. (Coming Soon)</p>
                                 </div>
                             </label>
@@ -229,9 +234,9 @@
                                     class="mt-1 h-5 w-5 border-2 border-border-light dark:border-border-dark bg-transparent text-primary focus:ring-primary checked:border-primary"
                                     name="split_option" type="radio" value="extract" />
                                 <div class="flex grow flex-col">
-                                    <p class="text-sm font-medium">Extract selected pages</p>
+                                    <p class="text-sm font-medium text-text-light dark:text-text-dark" data-i18n="extractSelectedPages">Extract selected pages</p>
                                     <p
-                                        class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-normal">
+                                        class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-normal" data-i18n="extractSelectedPagesDesc">
                                         Create a new PDF from individually selected pages. (Coming Soon)</p>
                                 </div>
                             </label>
@@ -239,16 +244,16 @@
                         <!-- Mode-specific controls -->
                         <div class="border-t border-border-light dark:border-border-dark pt-6 space-y-4">
                             <label class="block text-sm font-medium text-text-light dark:text-text-dark"
-                                for="page-range">Page Ranges</label>
+                                for="page-range" data-i18n="pageRanges">Page Ranges</label>
                             <input
-                                class="w-full rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark p-2 focus:ring-primary focus:border-primary text-sm"
+                                class="w-full rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark p-2 focus:ring-primary focus:border-primary text-sm text-text-light dark:text-text-dark"
                                 id="page-range" name="page-range" placeholder="e.g., 1-5, 8, 10-12" type="text" />
-                            <p class="text-xs text-text-secondary-light dark:text-text-secondary-dark">Use commas to
+                            <p class="text-xs text-text-secondary-light dark:text-text-secondary-dark" data-i18n="pageRangesDesc">Use commas to
                                 separate page numbers or ranges.</p>
                             <!-- Error state -->
                             <div id="rangeError" class="hidden items-center gap-2 text-red-500">
                                 <span class="material-symbols-outlined text-base">error</span>
-                                <p class="text-xs">Invalid range format.</p>
+                                <p class="text-xs" data-i18n="invalidRangeFormat">Invalid range format.</p>
                             </div>
                         </div>
                     </div>
@@ -256,7 +261,7 @@
                     <div class="p-6 border-t border-border-light dark:border-border-dark mt-auto space-y-4">
                         <button onclick="splitPDF()"
                             class="w-full flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-primary text-white text-base font-bold tracking-wide bg-gradient-to-r from-primary to-primary-gradient-to shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-shadow">
-                            <span class="truncate">Split PDF</span>
+                            <span class="truncate" data-i18n="splitPdf">Split PDF</span>
                         </button>
                         <p id="statusMessage"
                             class="text-center text-sm text-text-secondary-light dark:text-text-secondary-dark"></p>
@@ -267,6 +272,95 @@
     </div>
 
     <script>
+        // Language translations
+        const translations = {
+            en: {
+                language: 'Language',
+                darkMode: 'Dark Mode',
+                home: 'Home',
+                mergePdf: 'Merge PDF',
+                splitPdf: 'Split PDF',
+                compressPdf: 'Compress PDF',
+                imageToPdf: 'Image to PDF',
+                pdfToText: 'PDF to Text',
+                settings: 'Settings',
+                help: 'Help',
+                splitPdfTitle: 'Split PDF',
+                splitPdfDesc: 'Select pages and choose a splitting method to create new PDF files.',
+                dragDropPdf: 'Drag & Drop PDF here',
+                orBrowseFiles: 'or browse files to get started',
+                browseFiles: 'Browse Files',
+                clearFile: 'Clear File',
+                splitOptions: 'Split Options',
+                splitByPageRange: 'Split by page range',
+                splitByPageRangeDesc: 'Create one PDF from a specific range of pages.',
+                splitIntoFixedRanges: 'Split into fixed ranges',
+                splitIntoFixedRangesDesc: 'Divide the PDF into multiple files of N pages each. (Coming Soon)',
+                extractSelectedPages: 'Extract selected pages',
+                extractSelectedPagesDesc: 'Create a new PDF from individually selected pages. (Coming Soon)',
+                pageRanges: 'Page Ranges',
+                pageRangesDesc: 'Use commas to separate page numbers or ranges.',
+                invalidRangeFormat: 'Invalid range format.'
+            },
+            tr: {
+                language: 'Dil',
+                darkMode: 'Karanlık Mod',
+                home: 'Ana Sayfa',
+                mergePdf: 'PDF Birleştir',
+                splitPdf: 'PDF Böl',
+                compressPdf: 'PDF Sıkıştır',
+                imageToPdf: 'Resimden PDF',
+                pdfToText: 'PDF\'den Metin',
+                settings: 'Ayarlar',
+                help: 'Yardım',
+                splitPdfTitle: 'PDF Böl',
+                splitPdfDesc: 'Sayfaları seçin ve yeni PDF dosyaları oluşturmak için bir bölme yöntemi seçin.',
+                dragDropPdf: 'PDF\'yi buraya sürükleyip bırakın',
+                orBrowseFiles: 'veya başlamak için dosyalara göz atın',
+                browseFiles: 'Dosya Seç',
+                clearFile: 'Dosyayı Temizle',
+                splitOptions: 'Bölme Seçenekleri',
+                splitByPageRange: 'Sayfa aralığına göre böl',
+                splitByPageRangeDesc: 'Belirli bir sayfa aralığından tek bir PDF oluşturun.',
+                splitIntoFixedRanges: 'Sabit aralıklara böl',
+                splitIntoFixedRangesDesc: 'PDF\'yi her biri N sayfadan oluşan birden fazla dosyaya bölün. (Yakında)',
+                extractSelectedPages: 'Seçili sayfaları çıkar',
+                extractSelectedPagesDesc: 'Ayrı ayrı seçilen sayfalardan yeni bir PDF oluşturun. (Yakında)',
+                pageRanges: 'Sayfa Aralıkları',
+                pageRangesDesc: 'Sayfa numaralarını veya aralıklarını ayırmak için virgül kullanın.',
+                invalidRangeFormat: 'Geçersiz aralık formatı.'
+            }
+        };
+
+        // Language Logic
+        const langToggleBtn = document.getElementById('lang-toggle');
+        const langIcon = document.getElementById('lang-icon');
+        
+        function updateLanguageUI(lang) {
+            langIcon.textContent = lang === 'tr' ? 'EN' : 'TR';
+        }
+
+        function setLanguage(lang) {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            localStorage.setItem('language', lang);
+            updateLanguageUI(lang);
+        }
+
+        const savedLang = localStorage.getItem('language') || 'en';
+        setLanguage(savedLang);
+
+        langToggleBtn.addEventListener('click', () => {
+            const currentLang = localStorage.getItem('language') || 'en';
+            const newLang = currentLang === 'en' ? 'tr' : 'en';
+            setLanguage(newLang);
+        });
+
         // Dark Mode Logic
         const themeToggleBtn = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');

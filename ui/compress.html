@@ -101,9 +101,14 @@
                 <div class="flex items-center gap-3">
                     <span class="material-symbols-outlined text-3xl text-primary cursor-pointer"
                         onclick="goHome()">picture_as_pdf</span>
-                    <h1 class="text-lg font-bold text-text-light dark:text-text-dark">PDF Hub - Sıkıştır</h1>
+                    <h1 class="text-lg font-bold text-text-light dark:text-text-dark" data-i18n="pageTitle">PDF Hub - Sıkıştır</h1>
                 </div>
                 <div class="flex items-center gap-2">
+                    <button id="lang-toggle"
+                        class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-secondary-light dark:text-text-secondary-dark transition-colors hover:bg-slate-100 dark:hover:bg-white/5"
+                        title="Toggle Language">
+                        <span class="text-sm font-bold" id="lang-icon">TR</span>
+                    </button>
                     <button id="theme-toggle"
                         class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-secondary-light dark:text-text-secondary-dark transition-colors hover:bg-slate-100 dark:hover:bg-white/5">
                         <span class="material-symbols-outlined text-xl" id="theme-icon">dark_mode</span>
@@ -119,9 +124,9 @@
         <main class="flex-1">
             <div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-extrabold tracking-tight text-text-light dark:text-text-dark">PDF Sıkıştır
+                    <h2 class="text-3xl font-extrabold tracking-tight text-text-light dark:text-text-dark" data-i18n="compressTitle">PDF Sıkıştır
                     </h2>
-                    <p class="mt-1.5 text-text-secondary-light dark:text-text-secondary-dark">İsteğe bağlı sayfa seçimi
+                    <p class="mt-1.5 text-text-secondary-light dark:text-text-secondary-dark" data-i18n="compressDesc">İsteğe bağlı sayfa seçimi
                         ile PDF dosya boyutunu küçültün</p>
                 </div>
 
@@ -131,14 +136,14 @@
                     <span
                         class="material-symbols-outlined text-5xl text-text-secondary-light dark:text-text-secondary-dark">upload_file</span>
                     <div>
-                        <p class="text-lg font-bold text-text-light dark:text-text-dark">PDF Dosyası Seçin</p>
-                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Sıkıştırmak
+                        <p class="text-lg font-bold text-text-light dark:text-text-dark" data-i18n="selectPdfFile">PDF Dosyası Seçin</p>
+                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark" data-i18n="selectPdfToCompress">Sıkıştırmak
                             istediğiniz PDF'i seçin</p>
                     </div>
                     <button onclick="selectPDF()"
                         class="flex h-10 min-w-[84px] items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-bold text-white hover:bg-primary/90">
                         <span class="material-symbols-outlined text-base">add</span>
-                        <span>Dosya Seç</span>
+                        <span data-i18n="selectFile">Dosya Seç</span>
                     </button>
                 </div>
 
@@ -148,23 +153,23 @@
                         <div>
                             <h3 class="font-bold text-lg text-text-light dark:text-text-dark" id="pdfFileName"></h3>
                             <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark"><span
-                                    id="totalPages">0</span> sayfa • <span id="selectedCount">Tümü</span> seçili</p>
+                                    id="totalPages">0</span> <span data-i18n="page">sayfa</span> • <span id="selectedCount">Tümü</span> <span data-i18n="selected">seçili</span></p>
                         </div>
                         <div class="flex gap-2">
                             <button onclick="selectAllPages()"
                                 class="flex h-9 items-center gap-2 rounded-md border border-border-light dark:border-border-dark px-3 text-sm font-medium hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                                 <span class="material-symbols-outlined text-base">select_all</span>
-                                <span>Tümünü Seç</span>
+                                <span data-i18n="selectAll">Tümünü Seç</span>
                             </button>
                             <button onclick="deselectAllPages()"
                                 class="flex h-9 items-center gap-2 rounded-md border border-border-light dark:border-border-dark px-3 text-sm font-medium hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                                 <span class="material-symbols-outlined text-base">deselect</span>
-                                <span>Hiçbiri</span>
+                                <span data-i18n="selectNone">Hiçbiri</span>
                             </button>
                             <button onclick="compressPDF()" id="compressBtn"
                                 class="flex h-9 items-center gap-2 rounded-md bg-primary px-4 text-sm font-semibold text-white hover:bg-primary/90">
                                 <span class="material-symbols-outlined text-base">compress</span>
-                                <span>Sıkıştır</span>
+                                <span data-i18n="compress">Sıkıştır</span>
                             </button>
                             <button onclick="clearFile()"
                                 class="flex h-8 w-8 items-center justify-center rounded-full text-text-secondary-light dark:text-text-secondary-dark hover:bg-slate-200 dark:hover:bg-white/10">
@@ -205,11 +210,11 @@
 
                 <!-- Processing/Success/Error States -->
                 <div id="processingState" class="hidden flex-col items-center gap-4 text-center p-10">
-                    <h3 class="text-lg font-bold text-text-light dark:text-text-dark">PDF Sıkıştırılıyor...</h3>
+                    <h3 class="text-lg font-bold text-text-light dark:text-text-dark" data-i18n="compressing">PDF Sıkıştırılıyor...</h3>
                     <div class="w-full max-w-md bg-slate-200 dark:bg-slate-700 rounded-full h-2">
                         <div class="bg-primary h-2 rounded-full animate-pulse" style="width: 100%"></div>
                     </div>
-                    <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Dosya boyutu
+                    <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark" data-i18n="compressingDesc">Dosya boyutu
                         azaltılıyor...</p>
                 </div>
 
@@ -219,27 +224,27 @@
                         <span
                             class="material-symbols-outlined text-green-600 dark:text-green-400 text-4xl">check_circle</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-text-light dark:text-text-dark">Sıkıştırma Başarılı!</h3>
+                    <h3 class="text-2xl font-bold text-text-light dark:text-text-dark" data-i18n="compressionSuccess">Sıkıştırma Başarılı!</h3>
                     <div class="bg-slate-50 dark:bg-white/5 rounded-lg p-6 w-full max-w-md space-y-3">
                         <div class="flex justify-between text-sm">
-                            <span class="text-text-secondary-light dark:text-text-secondary-dark">Orijinal Boyut:</span>
+                            <span class="text-text-secondary-light dark:text-text-secondary-dark" data-i18n="originalSize">Orijinal Boyut:</span>
                             <span id="originalSize" class="font-medium text-text-light dark:text-text-dark"></span>
                         </div>
                         <div class="flex justify-between text-sm">
-                            <span class="text-text-secondary-light dark:text-text-secondary-dark">Sıkıştırılmış
+                            <span class="text-text-secondary-light dark:text-text-secondary-dark" data-i18n="compressedSize">Sıkıştırılmış
                                 Boyut:</span>
                             <span id="compressedSize" class="font-medium text-text-light dark:text-text-dark"></span>
                         </div>
                         <div
                             class="flex justify-between text-sm pt-2 border-t border-border-light dark:border-border-dark">
-                            <span class="text-text-secondary-light dark:text-text-secondary-dark">Azalma:</span>
+                            <span class="text-text-secondary-light dark:text-text-secondary-dark" data-i18n="reduction">Azalma:</span>
                             <span id="reduction" class="font-medium text-green-600 dark:text-green-400"></span>
                         </div>
                     </div>
                     <button onclick="startOver()"
                         class="flex h-10 items-center gap-2 rounded-md px-6 text-sm font-medium hover:bg-slate-100 dark:hover:bg-white/5 mt-4 text-text-light dark:text-text-dark">
                         <span class="material-symbols-outlined text-base">refresh</span>
-                        <span>Yeni PDF Sıkıştır</span>
+                        <span data-i18n="newCompress">Yeni PDF Sıkıştır</span>
                     </button>
                 </div>
 
@@ -247,12 +252,12 @@
                     <div class="flex h-16 w-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
                         <span class="material-symbols-outlined text-red-600 dark:text-red-400 text-4xl">error</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-text-light dark:text-text-dark">Hata!</h3>
+                    <h3 class="text-2xl font-bold text-text-light dark:text-text-dark" data-i18n="error">Hata!</h3>
                     <p id="errorMessage" class="text-red-600 dark:text-red-400"></p>
                     <button onclick="startOver()"
                         class="flex h-10 items-center gap-2 rounded-md px-6 text-sm font-medium hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                         <span class="material-symbols-outlined text-base">refresh</span>
-                        <span>Tekrar Dene</span>
+                        <span data-i18n="tryAgain">Tekrar Dene</span>
                     </button>
                 </div>
             </div>
@@ -264,6 +269,88 @@
         let totalPagesCount = 0;
         let selectedPages = new Set();
         let pdfDoc = null;
+
+        // Language translations
+        const translations = {
+            en: {
+                pageTitle: 'PDF Hub - Compress',
+                compressTitle: 'Compress PDF',
+                compressDesc: 'Reduce PDF file size with optional page selection',
+                selectPdfFile: 'Select PDF File',
+                selectPdfToCompress: 'Select the PDF you want to compress',
+                selectFile: 'Select File',
+                selectAll: 'Select All',
+                selectNone: 'None',
+                compress: 'Compress',
+                page: 'page',
+                selected: 'selected',
+                all: 'All',
+                compressing: 'Compressing PDF...',
+                compressingDesc: 'Reducing file size...',
+                compressionSuccess: 'Compression Successful!',
+                originalSize: 'Original Size:',
+                compressedSize: 'Compressed Size:',
+                reduction: 'Reduction:',
+                newCompress: 'Compress New PDF',
+                error: 'Error!',
+                tryAgain: 'Try Again'
+            },
+            tr: {
+                pageTitle: 'PDF Hub - Sıkıştır',
+                compressTitle: 'PDF Sıkıştır',
+                compressDesc: 'İsteğe bağlı sayfa seçimi ile PDF dosya boyutunu küçültün',
+                selectPdfFile: 'PDF Dosyası Seçin',
+                selectPdfToCompress: 'Sıkıştırmak istediğiniz PDF\'i seçin',
+                selectFile: 'Dosya Seç',
+                selectAll: 'Tümünü Seç',
+                selectNone: 'Hiçbiri',
+                compress: 'Sıkıştır',
+                page: 'sayfa',
+                selected: 'seçili',
+                all: 'Tümü',
+                compressing: 'PDF Sıkıştırılıyor...',
+                compressingDesc: 'Dosya boyutu azaltılıyor...',
+                compressionSuccess: 'Sıkıştırma Başarılı!',
+                originalSize: 'Orijinal Boyut:',
+                compressedSize: 'Sıkıştırılmış Boyut:',
+                reduction: 'Azalma:',
+                newCompress: 'Yeni PDF Sıkıştır',
+                error: 'Hata!',
+                tryAgain: 'Tekrar Dene'
+            }
+        };
+
+        // Language Logic
+        const langToggleBtn = document.getElementById('lang-toggle');
+        const langIcon = document.getElementById('lang-icon');
+        
+        function updateLanguageUI(lang) {
+            langIcon.textContent = lang === 'tr' ? 'EN' : 'TR';
+        }
+
+        function setLanguage(lang) {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            localStorage.setItem('language', lang);
+            updateLanguageUI(lang);
+            
+            // Update dynamic texts
+            updateSelectedCount();
+        }
+
+        const savedLang = localStorage.getItem('language') || 'tr';
+        setLanguage(savedLang);
+
+        langToggleBtn.addEventListener('click', () => {
+            const currentLang = localStorage.getItem('language') || 'tr';
+            const newLang = currentLang === 'en' ? 'tr' : 'en';
+            setLanguage(newLang);
+        });
 
         // Dark Mode Logic
         const themeToggleBtn = document.getElementById('theme-toggle');
@@ -436,8 +523,9 @@
 
         function updateSelectedCount() {
             const count = document.getElementById('selectedCount');
+            const lang = localStorage.getItem('language') || 'tr';
             if (selectedPages.size === totalPagesCount) {
-                count.textContent = 'Tümü';
+                count.textContent = translations[lang].all;
             } else {
                 count.textContent = selectedPages.size;
             }

@@ -88,6 +88,11 @@
                         <h1 class="text-xl font-bold text-text-light dark:text-text-dark">PDF Hub</h1>
                     </div>
                     <div class="flex items-center gap-2">
+                        <button id="lang-toggle"
+                            class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl bg-surface-light dark:bg-surface-dark text-text-secondary-light dark:text-text-secondary-dark transition-colors hover:bg-slate-100 dark:hover:bg-white/5 border border-border-light dark:border-border-dark"
+                            title="Toggle Language">
+                            <span class="text-sm font-bold" id="lang-icon">TR</span>
+                        </button>
                         <button id="theme-toggle"
                             class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl bg-surface-light dark:bg-surface-dark text-text-secondary-light dark:text-text-secondary-dark transition-colors hover:bg-slate-100 dark:hover:bg-white/5 border border-border-light dark:border-border-dark">
                             <span class="material-symbols-outlined text-xl" id="theme-icon">dark_mode</span>
@@ -117,19 +122,19 @@
                                 </span>
                             </div>
                             <div>
-                                <h2 class="text-xl font-bold text-text-light dark:text-text-dark">Drop your PDF files
+                                <h2 class="text-xl font-bold text-text-light dark:text-text-dark" data-i18n="dropFiles">Drop your PDF files
                                     here</h2>
-                                <p class="mt-1 text-text-secondary-light dark:text-text-secondary-dark">or click to
+                                <p class="mt-1 text-text-secondary-light dark:text-text-secondary-dark" data-i18n="browseComputer">or click to
                                     browse your computer</p>
                             </div>
                             <button
                                 class="mt-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-soft transition-all hover:bg-primary/90 hover:shadow-soft-lg active:scale-95"
-                                onclick="selectFiles()">
+                                onclick="selectFiles()" data-i18n="browseFiles">
                                 Browse Files
                             </button>
                         </div>
                         <div>
-                            <h2 class="mb-4 text-xl font-bold text-text-light dark:text-text-dark px-1">Most Used
+                            <h2 class="mb-4 text-xl font-bold text-text-light dark:text-text-dark px-1" data-i18n="mostUsedFeatures">Most Used
                                 Features</h2>
                             <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
                                 <a class="group flex flex-col items-center gap-3 rounded-2xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-6 text-center transition-all hover:-translate-y-1 hover:border-primary hover:bg-primary/5 hover:shadow-soft-lg cursor-pointer"
@@ -138,7 +143,7 @@
                                         class="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
                                         <span class="material-symbols-outlined text-3xl">merge_type</span>
                                     </div>
-                                    <p class="font-semibold text-text-light dark:text-text-dark">Merge PDF</p>
+                                    <p class="font-semibold text-text-light dark:text-text-dark" data-i18n="mergePdf">Merge PDF</p>
                                 </a>
                                 <a class="group flex flex-col items-center gap-3 rounded-2xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-6 text-center transition-all hover:-translate-y-1 hover:border-primary hover:bg-primary/5 hover:shadow-soft-lg cursor-pointer"
                                     onclick="navigateTo('split')">
@@ -146,7 +151,7 @@
                                         class="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
                                         <span class="material-symbols-outlined text-3xl">splitscreen</span>
                                     </div>
-                                    <p class="font-semibold text-text-light dark:text-text-dark">Split PDF</p>
+                                    <p class="font-semibold text-text-light dark:text-text-dark" data-i18n="splitPdf">Split PDF</p>
                                 </a>
                                 <a class="group flex flex-col items-center gap-3 rounded-2xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-6 text-center transition-all hover:-translate-y-1 hover:border-primary hover:bg-primary/5 hover:shadow-soft-lg cursor-pointer"
                                     onclick="navigateTo('compress')">
@@ -154,7 +159,7 @@
                                         class="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
                                         <span class="material-symbols-outlined text-3xl">compress</span>
                                     </div>
-                                    <p class="font-semibold text-text-light dark:text-text-dark">Compress PDF</p>
+                                    <p class="font-semibold text-text-light dark:text-text-dark" data-i18n="compressPdf">Compress PDF</p>
                                 </a>
                                 <a class="group flex flex-col items-center gap-3 rounded-2xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-6 text-center transition-all hover:-translate-y-1 hover:border-primary hover:bg-primary/5 hover:shadow-soft-lg cursor-pointer"
                                     onclick="navigateTo('img_to_pdf')">
@@ -162,7 +167,7 @@
                                         class="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
                                         <span class="material-symbols-outlined text-3xl">image</span>
                                     </div>
-                                    <p class="font-semibold text-text-light dark:text-text-dark">Image to PDF</p>
+                                    <p class="font-semibold text-text-light dark:text-text-dark" data-i18n="imageToPdf">Image to PDF</p>
                                 </a>
                             </div>
                         </div>
@@ -170,7 +175,7 @@
                     <aside class="flex flex-col gap-8">
                         <div
                             class="rounded-2xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-6">
-                            <h2 class="mb-4 text-xl font-bold text-text-light dark:text-text-dark">Quick Stats</h2>
+                            <h2 class="mb-4 text-xl font-bold text-text-light dark:text-text-dark" data-i18n="quickStats">Quick Stats</h2>
                             <div class="space-y-4">
                                 <div
                                     class="flex items-center gap-4 rounded-xl bg-background-light dark:bg-background-dark p-4">
@@ -179,7 +184,7 @@
                                         <span class="material-symbols-outlined text-2xl">description</span>
                                     </div>
                                     <div>
-                                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Files
+                                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark" data-i18n="filesProcessed">Files
                                             Processed</p>
                                         <p class="text-lg font-bold text-text-light dark:text-text-dark">1,245</p>
                                     </div>
@@ -191,7 +196,7 @@
                                         <span class="material-symbols-outlined text-2xl">savings</span>
                                     </div>
                                     <div>
-                                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Size
+                                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark" data-i18n="sizeSaved">Size
                                             Saved</p>
                                         <p class="text-lg font-bold text-text-light dark:text-text-dark">3.12 GB</p>
                                     </div>
@@ -200,7 +205,7 @@
                         </div>
                         <div
                             class="flex-1 rounded-2xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-6">
-                            <h2 class="mb-4 text-xl font-bold text-text-light dark:text-text-dark">All Tools</h2>
+                            <h2 class="mb-4 text-xl font-bold text-text-light dark:text-text-dark" data-i18n="allTools">All Tools</h2>
                             <ul class="space-y-2">
                                 <li onclick="navigateTo('merge')"
                                     class="flex items-center space-x-4 rounded-lg p-3 transition-colors hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer">
@@ -208,7 +213,7 @@
                                         class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
                                         <span class="material-symbols-outlined text-2xl">merge_type</span>
                                     </div>
-                                    <p class="font-medium text-text-light dark:text-text-dark">Merge PDF</p>
+                                    <p class="font-medium text-text-light dark:text-text-dark" data-i18n="mergePdf">Merge PDF</p>
                                 </li>
                                 <li onclick="navigateTo('split')"
                                     class="flex items-center space-x-4 rounded-lg p-3 transition-colors hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer">
@@ -216,7 +221,7 @@
                                         class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
                                         <span class="material-symbols-outlined text-2xl">splitscreen</span>
                                     </div>
-                                    <p class="font-medium text-text-light dark:text-text-dark">Split PDF</p>
+                                    <p class="font-medium text-text-light dark:text-text-dark" data-i18n="splitPdf">Split PDF</p>
                                 </li>
                                 <li onclick="navigateTo('compress')"
                                     class="flex items-center space-x-4 rounded-lg p-3 transition-colors hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer">
@@ -224,7 +229,7 @@
                                         class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
                                         <span class="material-symbols-outlined text-2xl">compress</span>
                                     </div>
-                                    <p class="font-medium text-text-light dark:text-text-dark">Compress PDF</p>
+                                    <p class="font-medium text-text-light dark:text-text-dark" data-i18n="compressPdf">Compress PDF</p>
                                 </li>
                                 <li onclick="navigateTo('img_to_pdf')"
                                     class="flex items-center space-x-4 rounded-lg p-3 transition-colors hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer">
@@ -232,7 +237,7 @@
                                         class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
                                         <span class="material-symbols-outlined text-2xl">image</span>
                                     </div>
-                                    <p class="font-medium text-text-light dark:text-text-dark">Image to PDF</p>
+                                    <p class="font-medium text-text-light dark:text-text-dark" data-i18n="imageToPdf">Image to PDF</p>
                                 </li>
                                 <li onclick="navigateTo('pdf_to_text')"
                                     class="flex items-center space-x-4 rounded-lg p-3 transition-colors hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer">
@@ -240,7 +245,7 @@
                                         class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
                                         <span class="material-symbols-outlined text-2xl">article</span>
                                     </div>
-                                    <p class="font-medium text-text-light dark:text-text-dark">PDF to Text</p>
+                                    <p class="font-medium text-text-light dark:text-text-dark" data-i18n="pdfToText">PDF to Text</p>
                                 </li>
                             </ul>
                         </div>
@@ -251,6 +256,69 @@
     </div>
 
     <script>
+        // Language translations
+        const translations = {
+            en: {
+                dropFiles: 'Drop your PDF files here',
+                browseComputer: 'or click to browse your computer',
+                browseFiles: 'Browse Files',
+                mostUsedFeatures: 'Most Used Features',
+                mergePdf: 'Merge PDF',
+                splitPdf: 'Split PDF',
+                compressPdf: 'Compress PDF',
+                imageToPdf: 'Image to PDF',
+                pdfToText: 'PDF to Text',
+                quickStats: 'Quick Stats',
+                filesProcessed: 'Files Processed',
+                sizeSaved: 'Size Saved',
+                allTools: 'All Tools'
+            },
+            tr: {
+                dropFiles: 'PDF dosyalarınızı buraya sürükleyin',
+                browseComputer: 'veya bilgisayarınızdan seçmek için tıklayın',
+                browseFiles: 'Dosya Seç',
+                mostUsedFeatures: 'En Çok Kullanılan Özellikler',
+                mergePdf: 'PDF Birleştir',
+                splitPdf: 'PDF Böl',
+                compressPdf: 'PDF Sıkıştır',
+                imageToPdf: 'Resimden PDF',
+                pdfToText: 'PDF\'den Metin',
+                quickStats: 'Hızlı İstatistikler',
+                filesProcessed: 'İşlenen Dosyalar',
+                sizeSaved: 'Tasarruf Edilen Boyut',
+                allTools: 'Tüm Araçlar'
+            }
+        };
+
+        // Language Logic
+        const langToggleBtn = document.getElementById('lang-toggle');
+        const langIcon = document.getElementById('lang-icon');
+        
+        function updateLanguageUI(lang) {
+            langIcon.textContent = lang === 'tr' ? 'EN' : 'TR';
+        }
+
+        function setLanguage(lang) {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            localStorage.setItem('language', lang);
+            updateLanguageUI(lang);
+        }
+
+        const savedLang = localStorage.getItem('language') || 'en';
+        setLanguage(savedLang);
+
+        langToggleBtn.addEventListener('click', () => {
+            const currentLang = localStorage.getItem('language') || 'en';
+            const newLang = currentLang === 'en' ? 'tr' : 'en';
+            setLanguage(newLang);
+        });
+
         // Dark Mode Logic
         const themeToggleBtn = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');

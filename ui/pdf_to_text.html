@@ -18,10 +18,21 @@
     </style>
     <script>
         tailwind.config = {
+            darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": { DEFAULT: "#6366F1", light: "#E0E7FF", dark: "#4338CA" },
+                        "primary": "#4F46E5",
+                        "background-light": "#F9FAFB",
+                        "background-dark": "#111827",
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#1F2937",
+                        "text-light": "#111827",
+                        "text-dark": "#D1D5DB",
+                        "text-secondary-light": "#6B7280",
+                        "text-secondary-dark": "#9CA3AF",
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#374151",
                         "background": "#F8FAFC", "surface": "#FFFFFF",
                         "text-primary": "#1E293B", "text-secondary": "#64748B", "border-color": "#E2E8F0"
                     },
@@ -32,128 +43,139 @@
     </script>
 </head>
 
-<body class="font-sans bg-background text-text-primary">
+<body class="font-sans bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark transition-colors duration-200">
     <div class="flex min-h-screen w-full flex-col">
-        <header class="sticky top-0 z-20 border-b border-border-color bg-surface/80 backdrop-blur-sm">
+        <header class="sticky top-0 z-20 border-b border-border-light dark:border-border-dark bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-sm">
             <div class="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-3xl text-primary-dark cursor-pointer"
+                    <span class="material-symbols-outlined text-3xl text-primary cursor-pointer"
                         onclick="goHome()">picture_as_pdf</span>
-                    <h1 class="text-lg font-bold">PDF Hub - PDF to Text</h1>
+                    <h1 class="text-lg font-bold text-text-light dark:text-text-dark" data-i18n="pageTitle">PDF Hub - PDF to Text</h1>
                 </div>
-                <button onclick="goHome()"
-                    class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-color bg-surface transition-colors hover:bg-slate-100">
-                    <span class="material-symbols-outlined text-xl text-text-secondary">home</span>
-                </button>
+                <div class="flex items-center gap-2">
+                    <button id="lang-toggle"
+                        class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-secondary-light dark:text-text-secondary-dark transition-colors hover:bg-slate-100 dark:hover:bg-white/5"
+                        title="Toggle Language">
+                        <span class="text-sm font-bold" id="lang-icon">TR</span>
+                    </button>
+                    <button id="theme-toggle"
+                        class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-secondary-light dark:text-text-secondary-dark transition-colors hover:bg-slate-100 dark:hover:bg-white/5">
+                        <span class="material-symbols-outlined text-xl" id="theme-icon">dark_mode</span>
+                    </button>
+                    <button onclick="goHome()"
+                        class="flex h-9 w-9 items-center justify-center rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark transition-colors hover:bg-slate-100 dark:hover:bg-white/5">
+                        <span class="material-symbols-outlined text-xl text-text-secondary-light dark:text-text-secondary-dark">home</span>
+                    </button>
+                </div>
             </div>
         </header>
         <main class="flex-1">
             <div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-extrabold tracking-tight">PDF to Text</h2>
-                    <p class="mt-1.5 text-text-secondary">Extract text content from your PDF documents.</p>
+                    <h2 class="text-3xl font-extrabold tracking-tight text-text-light dark:text-text-dark" data-i18n="pdfToTextTitle">PDF to Text</h2>
+                    <p class="mt-1.5 text-text-secondary-light dark:text-text-secondary-dark" data-i18n="pdfToTextDesc">Extract text content from your PDF documents.</p>
                 </div>
                 <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
                     <div class="flex flex-col gap-6 lg:col-span-2">
                         <!-- Empty State -->
                         <div id="emptyState"
-                            class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-border-color p-10 text-center bg-surface">
-                            <span class="material-symbols-outlined text-5xl text-text-secondary">upload_file</span>
+                            class="flex flex-col items-center gap-6 rounded-lg border-2 border-dashed border-border-light dark:border-border-dark p-10 text-center bg-surface-light dark:bg-surface-dark">
+                            <span class="material-symbols-outlined text-5xl text-text-secondary-light dark:text-text-secondary-dark">upload_file</span>
                             <div>
-                                <p class="text-lg font-bold">Select a PDF file</p>
-                                <p class="text-sm text-text-secondary">Choose a PDF to extract text from</p>
+                                <p class="text-lg font-bold text-text-light dark:text-text-dark" data-i18n="selectPdfFile">Select a PDF file</p>
+                                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark" data-i18n="selectPdfToExtract">Choose a PDF to extract text from</p>
                             </div>
                             <button onclick="selectPDF()"
                                 class="flex h-10 min-w-[84px] items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-bold text-white">
                                 <span class="material-symbols-outlined text-base">add</span>
-                                <span>Select File</span>
+                                <span data-i18n="selectFile">Select File</span>
                             </button>
                         </div>
 
                         <!-- Text Output -->
                         <div id="textOutput"
-                            class="hidden flex-col rounded-xl border border-border-color bg-surface shadow-sm p-6">
+                            class="hidden flex-col rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark shadow-sm p-6">
                             <div class="flex items-center justify-between mb-4">
-                                <h3 class="font-semibold">Extracted Text</h3>
+                                <h3 class="font-semibold text-text-light dark:text-text-dark" data-i18n="extractedText">Extracted Text</h3>
                                 <div class="flex gap-2">
                                     <button onclick="copyText()"
-                                        class="flex h-9 items-center justify-center gap-2 rounded-md border border-border-color px-3 text-sm font-medium hover:bg-slate-100">
+                                        class="flex h-9 items-center justify-center gap-2 rounded-md border border-border-light dark:border-border-dark px-3 text-sm font-medium hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                                         <span class="material-symbols-outlined text-base">content_copy</span>
-                                        <span>Copy</span>
+                                        <span data-i18n="copy">Copy</span>
                                     </button>
                                     <button onclick="saveText()"
-                                        class="flex h-9 items-center justify-center gap-2 rounded-md border border-border-color px-3 text-sm font-medium hover:bg-slate-100">
+                                        class="flex h-9 items-center justify-center gap-2 rounded-md border border-border-light dark:border-border-dark px-3 text-sm font-medium hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                                         <span class="material-symbols-outlined text-base">save</span>
-                                        <span>Save</span>
+                                        <span data-i18n="save">Save</span>
                                     </button>
                                 </div>
                             </div>
                             <textarea id="textArea"
-                                class="w-full h-96 rounded-md border border-border-color px-3 py-2 text-sm font-mono resize-y focus:ring-primary focus:border-primary"
+                                class="w-full h-96 rounded-md border border-border-light dark:border-border-dark px-3 py-2 text-sm font-mono resize-y focus:ring-primary focus:border-primary bg-white dark:bg-slate-800 text-text-light dark:text-text-dark"
                                 readonly></textarea>
                         </div>
                     </div>
                     <div class="lg:col-span-1">
                         <div
-                            class="sticky top-24 flex flex-col gap-6 rounded-xl border border-border-color bg-surface p-6 shadow-sm">
+                            class="sticky top-24 flex flex-col gap-6 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-6 shadow-sm">
                             <!-- File Selected State -->
                             <div id="fileState" class="hidden flex-col gap-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
-                                        <span class="material-symbols-outlined text-blue-600">picture_as_pdf</span>
+                                    <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900/30">
+                                        <span class="material-symbols-outlined text-blue-600 dark:text-blue-400">picture_as_pdf</span>
                                     </div>
                                     <div class="flex-1">
-                                        <p id="fileName" class="font-medium text-sm"></p>
-                                        <p class="text-xs text-text-secondary">PDF File</p>
+                                        <p id="fileName" class="font-medium text-sm text-text-light dark:text-text-dark"></p>
+                                        <p class="text-xs text-text-secondary-light dark:text-text-secondary-dark" data-i18n="pdfFile">PDF File</p>
                                     </div>
                                 </div>
                                 <button onclick="extractText()"
-                                    class="flex h-11 w-full items-center justify-center gap-2 rounded-md bg-primary px-4 text-base font-semibold text-white hover:bg-primary-dark">
+                                    class="flex h-11 w-full items-center justify-center gap-2 rounded-md bg-primary px-4 text-base font-semibold text-white hover:bg-primary/90">
                                     <span class="material-symbols-outlined">article</span>
-                                    <span>Extract Text</span>
+                                    <span data-i18n="extractText">Extract Text</span>
                                 </button>
                             </div>
 
                             <!-- Processing State -->
                             <div id="processingState" class="hidden flex-col items-center gap-4 text-center">
-                                <h3 class="text-lg font-bold">Extracting text...</h3>
-                                <div class="w-full bg-slate-200 rounded-full h-2">
+                                <h3 class="text-lg font-bold text-text-light dark:text-text-dark" data-i18n="extracting">Extracting text...</h3>
+                                <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
                                     <div class="bg-primary h-2 rounded-full animate-pulse" style="width: 100%"></div>
                                 </div>
-                                <p class="text-sm text-text-secondary">Reading PDF content.</p>
+                                <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark" data-i18n="readingPdf">Reading PDF content.</p>
                             </div>
 
                             <!-- Success State -->
                             <div id="successState" class="hidden flex-col gap-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
-                                        <span class="material-symbols-outlined text-green-600">check_circle</span>
+                                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
+                                        <span class="material-symbols-outlined text-green-600 dark:text-green-400">check_circle</span>
                                     </div>
                                     <div>
-                                        <h3 class="text-lg font-bold">Extraction Complete!</h3>
-                                        <p class="text-sm text-text-secondary">Text is ready.</p>
+                                        <h3 class="text-lg font-bold text-text-light dark:text-text-dark" data-i18n="extractionComplete">Extraction Complete!</h3>
+                                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark" data-i18n="textReady">Text is ready.</p>
                                     </div>
                                 </div>
                                 <button onclick="startOver()"
-                                    class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium hover:bg-slate-100">
+                                    class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                                     <span class="material-symbols-outlined text-base">refresh</span>
-                                    <span>Extract Another</span>
+                                    <span data-i18n="extractAnother">Extract Another</span>
                                 </button>
                             </div>
 
                             <!-- Error State -->
                             <div id="errorState" class="hidden flex-col gap-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-red-100">
-                                        <span class="material-symbols-outlined text-red-600">error</span>
+                                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
+                                        <span class="material-symbols-outlined text-red-600 dark:text-red-400">error</span>
                                     </div>
-                                    <h3 class="text-lg font-bold">Extraction Failed</h3>
+                                    <h3 class="text-lg font-bold text-text-light dark:text-text-dark" data-i18n="extractionFailed">Extraction Failed</h3>
                                 </div>
-                                <p id="errorMessage" class="text-sm text-red-600"></p>
+                                <p id="errorMessage" class="text-sm text-red-600 dark:text-red-400"></p>
                                 <button onclick="startOver()"
-                                    class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium hover:bg-slate-100">
+                                    class="flex h-10 w-full items-center justify-center gap-2 rounded-md px-4 text-sm font-medium hover:bg-slate-100 dark:hover:bg-white/5 text-text-light dark:text-text-dark">
                                     <span class="material-symbols-outlined text-base">refresh</span>
-                                    <span>Try Again</span>
+                                    <span data-i18n="tryAgain">Try Again</span>
                                 </button>
                             </div>
                         </div>
@@ -166,6 +188,115 @@
     <script>
         let selectedFile = null;
         let extractedText = '';
+
+        // Language translations
+        const translations = {
+            en: {
+                pageTitle: 'PDF Hub - PDF to Text',
+                pdfToTextTitle: 'PDF to Text',
+                pdfToTextDesc: 'Extract text content from your PDF documents.',
+                selectPdfFile: 'Select a PDF file',
+                selectPdfToExtract: 'Choose a PDF to extract text from',
+                selectFile: 'Select File',
+                extractedText: 'Extracted Text',
+                copy: 'Copy',
+                save: 'Save',
+                pdfFile: 'PDF File',
+                extractText: 'Extract Text',
+                extracting: 'Extracting text...',
+                readingPdf: 'Reading PDF content.',
+                extractionComplete: 'Extraction Complete!',
+                textReady: 'Text is ready.',
+                extractAnother: 'Extract Another',
+                extractionFailed: 'Extraction Failed',
+                tryAgain: 'Try Again'
+            },
+            tr: {
+                pageTitle: 'PDF Hub - PDF\'den Metin',
+                pdfToTextTitle: 'PDF\'den Metin',
+                pdfToTextDesc: 'PDF belgelerinizden metin içeriği çıkarın.',
+                selectPdfFile: 'PDF dosyası seçin',
+                selectPdfToExtract: 'Metin çıkarmak için bir PDF seçin',
+                selectFile: 'Dosya Seç',
+                extractedText: 'Çıkarılan Metin',
+                copy: 'Kopyala',
+                save: 'Kaydet',
+                pdfFile: 'PDF Dosyası',
+                extractText: 'Metin Çıkar',
+                extracting: 'Metin çıkarılıyor...',
+                readingPdf: 'PDF içeriği okunuyor.',
+                extractionComplete: 'Çıkarma Tamamlandı!',
+                textReady: 'Metin hazır.',
+                extractAnother: 'Başka Bir Dosya Çıkar',
+                extractionFailed: 'Çıkarma Başarısız',
+                tryAgain: 'Tekrar Dene'
+            }
+        };
+
+        // Language Logic
+        const langToggleBtn = document.getElementById('lang-toggle');
+        const langIcon = document.getElementById('lang-icon');
+        
+        function updateLanguageUI(lang) {
+            langIcon.textContent = lang === 'tr' ? 'EN' : 'TR';
+        }
+
+        function setLanguage(lang) {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            localStorage.setItem('language', lang);
+            updateLanguageUI(lang);
+        }
+
+        const savedLang = localStorage.getItem('language') || 'en';
+        setLanguage(savedLang);
+
+        langToggleBtn.addEventListener('click', () => {
+            const currentLang = localStorage.getItem('language') || 'en';
+            const newLang = currentLang === 'en' ? 'tr' : 'en';
+            setLanguage(newLang);
+        });
+
+        // Dark Mode Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        function updateThemeUI(isDark) {
+            if (isDark) {
+                themeIcon.textContent = 'light_mode';
+            } else {
+                themeIcon.textContent = 'dark_mode';
+            }
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+            htmlElement.classList.add('dark');
+            updateThemeUI(true);
+        } else {
+            htmlElement.classList.remove('dark');
+            updateThemeUI(false);
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                updateThemeUI(false);
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                updateThemeUI(true);
+            }
+        });
 
         function goHome() {
             if (window.pywebview && window.pywebview.api) {
